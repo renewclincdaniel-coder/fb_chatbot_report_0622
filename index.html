@@ -30,7 +30,7 @@
     <p class="kicker">2026-06-22 · PM Report · Updated</p>
     <h1 class="h1 anim-fade-up" data-anim="fade-up" style="margin-bottom: 24px;">RenewClinic 智能客服<br><span class="gradient-text">優化與下一步行動報告</span></h1>
     <p class="lede">已依 2026-06-22 最新程式、VM 部署、RAG ingestion 與客服 log 修正</p>
-    <div class="deck-footer"><span class="dim2">專案管理與開發團隊</span><span class="slide-number" data-current="1" data-total="10"></span></div>
+    <div class="deck-footer"><span class="dim2">專案管理與開發團隊</span><span class="slide-number" data-current="1" data-total="12"></span></div>
     <div class="notes">本報告已更新為「修正後狀態」，重點從規劃轉為回歸測試 + 真實 log 監控 + KPI 驗證。</div>
   </section>
 
@@ -47,6 +47,70 @@
       <div class="card">
         <h4>下一步焦點 <span class="pill warn">NEXT</span></h4>
         <p class="dim mt-s">從「規劃」轉為「完整 DeepEval regression + 真實 log 監控 + KPI 驗證」，確認 booking-aware 修正能否提升第二輪回覆率、降低制式追問流失。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2b. Data Foundation: Entry Source & Funnel -->
+  <section class="slide" data-title="Data Foundation">
+    <p class="kicker">01b / 數據基礎</p>
+    <h2 class="h2">分析母體：8,637 筆對話</h2>
+    <p class="lede mt-m">先以<strong>進入管道</strong>切分流量，再看<strong>轉化漏斗</strong>定位瓶頸，所有痛點與策略皆由此推導。<span class="dim">(來源：2026-05-04 對話統計分析)</span></p>
+    <div class="grid g2 mt-l">
+      <div class="card">
+        <h4>進入管道切分 (Entry Source)</h4>
+        <table class="mini">
+          <tr><th>管道</th><th>對話數</th><th>佔比</th></tr>
+          <tr><td>📢 廣告回覆 Ad Reply</td><td>7,722</td><td><strong>89.4%</strong></td></tr>
+          <tr><td>💬 貼文留言 Comment</td><td>507</td><td>5.9%</td></tr>
+          <tr><td>✉️ 直接私訊 DM</td><td>390</td><td>4.5%</td></tr>
+          <tr><td>📞 未接來電</td><td>12</td><td>0.1%</td></tr>
+          <tr><td>↩️ 貼文回覆 Post Reply</td><td>6</td><td>0.1%</td></tr>
+        </table>
+        <p class="dim mt-s" style="font-size:0.82em;">廣告投放是壓倒性入口 → 必須針對「快速按鈕 → 確認需求 → 轉諮詢」流程最佳化。</p>
+      </div>
+      <div class="card">
+        <h4>轉化漏斗 (Conversion Funnel)</h4>
+        <table class="mini">
+          <tr><th>階段</th><th>佔比</th></tr>
+          <tr><td>廣告來源</td><td>89.4%</td></tr>
+          <tr><td>轉接 LINE / WhatsApp</td><td><strong>57.2%</strong></td></tr>
+          <tr><td>提供聯繫方式</td><td>46.7%</td></tr>
+          <tr><td>預約門診</td><td><span class="todo">29.4%</span></td></tr>
+          <tr><td>僅快速回覆無後續</td><td><span class="todo">17.2%</span></td></tr>
+        </table>
+        <p class="dim mt-s" style="font-size:0.82em;">核心瓶頸在「轉 LINE → 預約門診」之間 (57.2% → 29.4%)，正是 booking-aware 修正鎖定的環節。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2c. Data Foundation: Ad-Reply Endpoint Segmentation -->
+  <section class="slide" data-title="Endpoint Segmentation">
+    <p class="kicker">01b / 數據基礎</p>
+    <h2 class="h2">廣告回覆終點分類</h2>
+    <p class="lede mt-m">對 <strong>7,173 段</strong>廣告回覆對話 (83.05%) 以「對話終點」做互斥切分，量化流失發生在哪一步。</p>
+    <div class="grid g2 mt-l">
+      <div class="card">
+        <h4>終點大類</h4>
+        <table class="mini">
+          <tr><th>大類</th><th>對話數</th><th>佔廣告回覆</th></tr>
+          <tr><td><span class="todo">無回覆 / 流失</span></td><td>5,840</td><td><strong>81.42%</strong></td></tr>
+          <tr><td><span class="done">明確轉換承接</span></td><td>1,068</td><td>14.89%</td></tr>
+          <tr><td>客戶待客服回覆</td><td>184</td><td>2.57%</td></tr>
+          <tr><td>婉拒 / 預算疑慮</td><td>81</td><td>1.13%</td></tr>
+        </table>
+      </div>
+      <div class="card" style="border-left: 4px solid #ffb74d;">
+        <h4>最大流失終點 (Top)</h4>
+        <table class="mini">
+          <tr><th>終點細分類</th><th>佔廣告回覆</th></tr>
+          <tr><td>快速回覆後無後續</td><td><strong>28.06%</strong></td></tr>
+          <tr><td>客服開場 / 釐清後無回覆</td><td><strong>24.83%</strong></td></tr>
+          <tr><td>客服提供預約 / 轉私域後無回覆</td><td>9.12%</td></tr>
+          <tr><td>客服要求聯絡方式後無回覆</td><td>7.74%</td></tr>
+          <tr><td>客戶已留下聯絡方式</td><td>8.35%</td></tr>
+        </table>
+        <p class="dim mt-s" style="font-size:0.82em;">兩大流失點都發生在「初次承接」——對應痛點①制式追問與策略四「高意願先承接、再留資」。</p>
       </div>
     </div>
   </section>
