@@ -12,6 +12,14 @@
   .deck { font-family: 'Inter', system-ui, sans-serif; }
   .h1, .h2, .h3, .h4 { font-weight: 700; }
   .dim { opacity: 0.8; }
+  .done { color: #4caf50; font-weight: 700; }
+  .todo { color: #ffb74d; font-weight: 700; }
+  table.mini { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.92em; }
+  table.mini th, table.mini td { text-align: left; padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  table.mini th { opacity: 0.7; font-weight: 600; }
+  table.mini code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; }
+  .pill { display: inline-block; font-size: 0.78em; padding: 2px 8px; border-radius: 999px; background: rgba(76,175,80,0.18); color: #4caf50; margin-left: 6px; }
+  .pill.warn { background: rgba(255,183,77,0.18); color: #ffb74d; }
 </style>
 </head>
 <body data-themes="tokyo-night,corporate-clean,minimal-white,pitch-deck-vc,academic-paper,dracula" data-theme-base="assets/themes/">
@@ -19,175 +27,197 @@
 
   <!-- 1. Cover -->
   <section class="slide center tc" data-title="Cover">
-    <p class="kicker">2026-06-22 · PM Report</p>
-    <h1 class="h1 anim-fade-up" data-anim="fade-up" style="margin-bottom: 24px;">RenewClinic 智能客服<br><span class="gradient-text">優化與行動報告</span></h1>
-    <p class="lede">基於 8,637 筆歷史對話數據與系統實測的優化藍圖</p>
-    <div class="deck-footer"><span class="dim2">專案管理與開發團隊</span><span class="slide-number" data-current="1" data-total="11"></span></div>
-    <div class="notes">這是一份針對現有 Facebook 智能客服的優化藍圖報告。</div>
+    <p class="kicker">2026-06-22 · PM Report · Updated</p>
+    <h1 class="h1 anim-fade-up" data-anim="fade-up" style="margin-bottom: 24px;">RenewClinic 智能客服<br><span class="gradient-text">優化與下一步行動報告</span></h1>
+    <p class="lede">已依 2026-06-22 最新程式、VM 部署、RAG ingestion 與客服 log 修正</p>
+    <div class="deck-footer"><span class="dim2">專案管理與開發團隊</span><span class="slide-number" data-current="1" data-total="10"></span></div>
+    <div class="notes">本報告已更新為「修正後狀態」，重點從規劃轉為回歸測試 + 真實 log 監控 + KPI 驗證。</div>
   </section>
 
   <!-- 2. Executive Summary -->
   <section class="slide" data-title="Executive Summary">
     <p class="kicker">01 / Executive Summary</p>
     <h2 class="h2">執行摘要</h2>
-    <p class="lede mt-m">目前 Facebook 智能客服已成功部署 <strong>Multi-Agent ReAct 架構</strong>，且 RAG 知識庫與 DeepEval 評估框架已建立基準線 (Baseline)。</p>
+    <p class="lede mt-m">系統已具備完整 <strong>FastAPI + Celery + Redis + PostgreSQL + ChromaDB + RAG</strong> 架構。Multi-Agent ReAct 已建置但 <code>use_multi_agent=False</code>，<strong>正式流量主路由仍為 FacebookAgent</strong>。</p>
     <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
       <div class="card">
-        <h4>現有瓶頸</h4>
-        <p class="dim mt-s">在「初期流量承接」、「價格詢問委婉轉移」與「轉 LINE 預約」存在斷層，導致 DeepEval 繁中品質等項目未達標。</p>
+        <h4>2026-06-22 已完成 <span class="pill">DONE</span></h4>
+        <p class="dim mt-s">RAG 改 S3 prefix ingestion、官網衛教資料 ingest、BM25 重建、Hybrid Search、意圖驗證改 <code>gpt-5-nano</code>、booking-aware routing、防重問 guard，VM 部署至 <code>744a48f</code>，目標回歸 <strong>26 passed</strong>。</p>
       </div>
       <div class="card">
-        <h4>解決思路</h4>
-        <p class="dim mt-s">依據「數據佐證問題 ➔ 系統架構優化」邏輯，進行針對性的流程重建與安全攔截防線佈署。</p>
+        <h4>下一步焦點 <span class="pill warn">NEXT</span></h4>
+        <p class="dim mt-s">從「規劃」轉為「完整 DeepEval regression + 真實 log 監控 + KPI 驗證」，確認 booking-aware 修正能否提升第二輪回覆率、降低制式追問流失。</p>
       </div>
     </div>
   </section>
 
-  <!-- 3. Pain Points 1 -->
-  <section class="slide" data-title="Pain Point 1">
-    <p class="kicker">02 / 核心痛點</p>
-    <h2 class="h2">痛點一：初期流失率高</h2>
-    <div class="card mt-l">
-      <h3>快速回覆按鈕未能有效推進對話</h3>
-      <ul class="mt-m">
-        <li><strong>數據佐證</strong>：89.4% 客戶來自廣告，最大流失點為「快速回覆後無後續」(28.06%) 與「客服開場後無回覆」(24.83%)。17.2% 客戶僅點擊按鈕就離開。</li>
-        <li><strong>系統現狀</strong>：首輪回覆較為死板，往往是泛用型問候或直接丟出冗長模板。DeepEval 繁中品質全數 fail。</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 4. Pain Points 2 & 3 -->
-  <section class="slide" data-title="Pain Points 2 & 3">
-    <p class="kicker">02 / 核心痛點</p>
-    <h2 class="h2">價格與私域轉化的挑戰</h2>
-    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
+  <!-- 3. System Status Calibration -->
+  <section class="slide" data-title="System Status">
+    <p class="kicker">02 / 系統狀態校準</p>
+    <h2 class="h2">目前真實系統狀態</h2>
+    <div class="grid g2 mt-l">
       <div class="card">
-        <h4>痛點二：價格詢問應對</h4>
-        <p class="dim mt-s"><strong>約 28.5% 問價</strong>。醫美價格因人而異，目前專案擬<strong>取消自動報價</strong>。系統若生硬拒絕或強制要資料，極易引發反感與流失。</p>
+        <h4>生產路由現況</h4>
+        <p class="dim mt-s"><code>Webhook → Celery batched → MessageProcessor → FacebookAgent.process_message()</code></p>
+        <p class="dim mt-s">前段先做 bot pause、RiskGuard、prompt injection、lazy profile / contact extraction。Multi-Agent 為漸進式 feature flag，尚未承接正式流量。</p>
       </div>
       <div class="card">
-        <h4>痛點三：轉 LINE 摩擦大</h4>
-        <p class="dim mt-s">漏斗顯示 57.2% 轉接 LINE，但<strong>最終僅 29.4% 預約</strong>。系統常在未提供足夠價值前過早要求聯絡方式，導致 16.86% 在此流失。</p>
+        <h4>模型設定現況</h4>
+        <table class="mini">
+          <tr><th>用途</th><th>模型</th></tr>
+          <tr><td>日常主對話</td><td><code>gpt-5.1-chat</code></td></tr>
+          <tr><td>情緒 / 風控</td><td><code>gpt-5-nano</code></td></tr>
+          <tr><td>危機處理</td><td><code>gpt-5.2-chat</code></td></tr>
+          <tr><td>意圖驗證</td><td><code>gpt-5-nano</code></td></tr>
+          <tr><td>備援</td><td><code>gemini-3.1-flash-lite</code> / <code>grok-4.1-fast</code></td></tr>
+        </table>
       </div>
     </div>
   </section>
 
-  <!-- 5. Pain Points 4 & 5 -->
-  <section class="slide" data-title="Pain Points 4 & 5">
-    <p class="kicker">02 / 核心痛點</p>
-    <h2 class="h2">海外需求與客訴風險</h2>
+  <!-- 4. RAG Governance -->
+  <section class="slide" data-title="RAG Status">
+    <p class="kicker">02 / 系統狀態校準</p>
+    <h2 class="h2">RAG 資料與 ingestion 現況</h2>
+    <p class="lede mt-m">策略已改為<strong>不在線上提供固定報價</strong>，RAG 只匯入適應症、風險禁忌、術前後注意、價格變因、官網衛教與診所核心資訊。</p>
     <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
       <div class="card">
-        <h4>痛點四：海外客群未處理</h4>
-        <p class="dim mt-s">國際客戶佔 2.4%，多為高客單價的三層次拉皮客群，需求集中在停留天數、匯率。目前缺乏判斷邏輯。</p>
+        <h4>已 ingest <span class="pill">DONE</span></h4>
+        <p class="dim mt-s">S3：<code>files-to-vector-renew-clinic</code>，Collection：<code>aesthetic_clinic_rag</code><br>納入 <code>processed_data/core/</code> 與 <code>renew_clinic_website_rag_v2/topics/</code>；排除 <code>source_pages/</code>、<code>reports/</code>。BM25 同步重建。</p>
+      </div>
+      <div class="card">
+        <h4>固定 ingestion 指令</h4>
+        <p class="dim mt-s"><code>docker compose exec -e S3_INCLUDE_PREFIXES="processed_data/core/,processed_data/renew_clinic_website_rag_v2/topics/" app python scripts/ingest_from_s3.py</code></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Pain Points & Fix Status 1-2 -->
+  <section class="slide" data-title="Pain Points 1 & 2">
+    <p class="kicker">03 / 核心痛點與修正狀態</p>
+    <h2 class="h2">承接意圖與避免重複追問</h2>
+    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
+      <div class="card">
+        <h4>① 制式追問 <span class="pill">已修正</span></h4>
+        <p class="dim mt-s">「我想下週來做電音波」舊回覆只問「哪個部位」。已新增 <code>treatment_booking_ready</code>：療程+時間+來做 → 直接進 booking-aware 接待，<code>電音波</code> 保留為獨立標籤。</p>
+      </div>
+      <div class="card">
+        <h4>② RAG 重複問同題 <span class="pill">已修正</span></h4>
+        <p class="dim mt-s">客戶答完探查題後 query rewrite 又問同題。已新增 <code>_build_consultation_answer_followup()</code> 與 <code>_is_nasolabial_severity_reply()</code> guard，禁止重問笑/不笑。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Pain Points & Fix Status 3-5 -->
+  <section class="slide" data-title="Pain Points 3-5">
+    <p class="kicker">03 / 核心痛點與修正狀態</p>
+    <h2 class="h2">價格、留資與風控</h2>
+    <div class="grid g3 mt-l anim-stagger-list" data-anim-target>
+      <div class="card">
+        <h4>③ 價格 no-quote <span class="pill">已具備</span></h4>
+        <p class="dim mt-s"><code>rag_engine</code> no-quote guard，避免固定/區間/Unit 報價。No Quote Compliance <strong>1.0000</strong>，但 Medical Safety 仍待追。</p>
+      </div>
+      <div class="card">
+        <h4>④ Booking Flow <span class="pill">已修正</span></h4>
+        <p class="dim mt-s">contextual booking detection、contact bundle 回歸測試；「不是給你了嗎」不再重複索取，高意願直接進 <code>collect_line_id</code>。</p>
       </div>
       <div class="card" style="border-left: 4px solid #f44336;">
-        <h4>痛點五：客訴與術後情緒</h4>
-        <p class="dim mt-s">歷史對話中含 <strong>[negative_complaints]</strong> 標籤有 <strong>26 筆 (0.3%)</strong>。佔比雖低但公關與法律風險極大。系統目前缺乏強制轉真人機制。</p>
+        <h4>⑤ 客訴 / 危機 <span class="pill">基礎已存在</span></h4>
+        <p class="dim mt-s"><code>RiskGuard</code> 於 MessageProcessor 前段執行，CRITICAL 啟動 crisis mode（crisis model）。下一步補測試、通知 SLA 與抽樣稽核。</p>
       </div>
     </div>
   </section>
 
-  <!-- 6. Strategy 1 -->
-  <section class="slide" data-title="Strategy 1">
-    <p class="kicker">03 / 優化方案</p>
-    <h2 class="h2">策略一：Symptom-driven Routing</h2>
-    <p class="lede mt-m">重構 Orchestrator Agent 的開場與路由邏輯。</p>
-    <div class="card mt-l">
-      <ul>
-        <li><strong>行動</strong>：放棄「療程導向」按鈕，改為「痛點/決策導向」。</li>
-        <li><strong>實作</strong>：
-          <ul>
-            <li>FB 選單改為「我想判斷適合哪一種」、「想了解恢復期與痛感」。</li>
-            <li>收到痛點進場時，<strong>先用二選一問題分型</strong>（如「在意嘴邊肉還是下顎線？」），不直接丟衛教長文。</li>
-          </ul>
-        </li>
-      </ul>
+  <!-- 7. Strategies 1-3 -->
+  <section class="slide" data-title="Strategies 1-3">
+    <p class="kicker">04 / 更新後優化方案</p>
+    <h2 class="h2">策略一～三</h2>
+    <div class="grid g3 mt-l anim-stagger-list" data-anim-target>
+      <div class="card">
+        <h4>一：以 FacebookAgent 為主體</h4>
+        <p class="dim mt-s">短期優化落在 <code>_detect/_handle_contextual_booking_request()</code>、<code>_should_explore_first()</code>、<code>_handle_standard_rag()</code>、<code>RiskGuard</code>、<code>booking_flow</code>。Multi-Agent 為中長期。</p>
+      </div>
+      <div class="card">
+        <h4>二：RAG 治理 + Hybrid Search</h4>
+        <p class="dim mt-s">每次更新產生 ingestion manifest；高頻療程建 query set（電音波、音波、電波、法令紋、皮秒、肉毒、玻尿酸），用 <code>debug_rag.py</code> 驗證 retrieval。</p>
+      </div>
+      <div class="card">
+        <h4>三：價格 no-quote 更像顧問</h4>
+        <p class="dim mt-s"><code>同理 → 說明費用變因 → 問不造成負擔的狀態題 → 邀請專人/諮詢</code>。禁止固定金額、區間、Unit/cc、推給他院比較。</p>
+      </div>
     </div>
   </section>
 
-  <!-- 7. Strategy 2 -->
-  <section class="slide" data-title="Strategy 2">
-    <p class="kicker">03 / 優化方案</p>
-    <h2 class="h2">策略二：委婉轉移 SOP</h2>
-    <p class="lede mt-m">取消自動報價，將問價轉化為「引導評估」的契機。</p>
-    <div class="card mt-l">
-      <ul>
-        <li><strong>資料層 (RAG)</strong>：清理固定價格，改為「價格評估變因說明」（如手術範圍、鬆弛程度）。</li>
-        <li><strong>邏輯層 (SalesAgent)</strong>：強制採取委婉轉移格式：<br>
-          <code style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px;">同理與承認問題 ➔ 說明影響費用的變因 ➔ 問一個狀態評估題 ➔ 邀請傳照片或門診評估</code>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 8. Strategy 3 -->
-  <section class="slide" data-title="Strategy 3">
-    <p class="kicker">03 / 優化方案</p>
-    <h2 class="h2">策略三：價值優先的聯絡收集</h2>
-    <p class="lede mt-m">優化 Booking Flow，延遲索取 LINE ID 時機。</p>
-    <div class="card mt-l">
-      <ul>
-        <li><strong>實作方式</strong>：修改狀態機，在要求個資前，必須先完成「線上照片初評引導」或「醫師專長/案例分享」。</li>
-        <li><strong>防呆機制</strong>：嚴格落實 Contact Bundle，已提供姓名/電話的客戶，系統絕對不可再次鬼打牆詢問或顯示「未提供」。</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 9. Strategy 4 & 5 -->
-  <section class="slide" data-title="Strategy 4 & 5">
-    <p class="kicker">03 / 優化方案</p>
-    <h2 class="h2">策略四與五：跨境工作流與安全防線</h2>
+  <!-- 8. Strategies 4-5 -->
+  <section class="slide" data-title="Strategies 4-5">
+    <p class="kicker">04 / 更新後優化方案</p>
+    <h2 class="h2">策略四與五</h2>
     <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
       <div class="card">
-        <h4>跨境醫療 (Cross-border)</h4>
-        <p class="dim mt-s">偵測「馬幣、飛機、馬來西亞」等字眼，自動觸發跨境 SOP：提供視訊選項、預估停留天數，優先轉交高階人工客服。</p>
+        <h4>四：高意願先承接，再留資</h4>
+        <p class="dim mt-s">先記時間意圖（下週/明天/週三晚上），先承接療程困擾，回答探查題先關心不重問；用「專人幫您確認可約時段」作為留資理由。</p>
+        <p class="dim mt-s" style="font-size:0.85em;">已覆蓋：<code>test_treatment_time_ready_request_enters_booking_context</code>、<code>test_already_provided_contact_followup_does_not_reask_contact</code> 等。</p>
       </div>
-      <div class="card" style="border-left: 4px solid #f44336;">
-        <h4>Medical Safety Guard</h4>
-        <p class="dim mt-s">加入 RiskGuard 中間件偵測「毀容、失敗、媒體、痛到無法睡」等字。一旦觸發即<strong>強制暫停 AI (Bot Pause)</strong> 並通知主管火速接手。</p>
+      <div class="card">
+        <h4>五：DeepEval 與真實 log 雙軌</h4>
+        <p class="dim mt-s">① 快速回歸：booking、rag_price、post-op guard、risk guard。<br>② 完整 DeepEval：繁中品質、Booking Flow、No Quote、Medical Safety。<br>真實 log 持續抽樣，盯重複追問與百科式長文。</p>
       </div>
     </div>
   </section>
 
-  <!-- 10. Expected Outcomes -->
+  <!-- 9. KPIs -->
   <section class="slide center tc" data-title="KPIs">
     <div>
-      <p class="kicker">04 / 預期效益</p>
-      <h2 class="h2">Expected Outcomes & KPIs</h2>
+      <p class="kicker">05 / 更新後 KPI</p>
+      <h2 class="h2">已達成 vs. 待驗證</h2>
       <div class="grid g2 mt-l tc" style="text-align: left;">
         <div class="card">
-          <h3 class="gradient-text">評估門檻通過</h3>
+          <h3 class="gradient-text">已達成 / 部分達成</h3>
           <ul class="dim mt-s">
-            <li>繁中品質平均分提升至 > 0.85</li>
-            <li>RAG 測試 Retrieval Relevancy > 0.90（準確提供變因）</li>
+            <li>No Quote Compliance：<span class="done">1.0000</span></li>
+            <li>繁中品質 (2026-06-15)：<span class="done">0.8571</span></li>
+            <li>目標回歸測試：<span class="done">26 passed</span></li>
+            <li>VM 部署 <code>744a48f</code>：<span class="done">healthy</span></li>
           </ul>
         </div>
         <div class="card">
-          <h3 class="gradient-text">轉換率提升</h3>
+          <h3 class="gradient-text">待驗證</h3>
           <ul class="dim mt-s">
-            <li>快速回覆後無後續流失率下降 10%</li>
-            <li>問價到線上評估承接率從 20.77% 升至 35%</li>
+            <li>完整 DeepEval regression 是否全綠</li>
+            <li>Booking Flow 第二輪回覆率是否提升</li>
+            <li>高意願客戶留資承接率是否提升</li>
+            <li>Medical Safety 是否穩定通過</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 11. Next Steps -->
-  <section class="slide" data-title="Next Steps">
-    <p class="kicker">05 / 總結與下一步</p>
+  <!-- 10. Action Items -->
+  <section class="slide" data-title="Action Items">
+    <p class="kicker">06 / 更新後行動清單</p>
     <h2 class="h2">Action Items</h2>
-    <p class="lede mt-m">核心挑戰在於<strong>「業務邏輯的細膩度」與「對客戶心理的同理心」</strong>。</p>
-    <div class="card mt-l">
-      <ul class="anim-stagger-list" data-anim-target>
-        <li><strong>[Data/RAG]</strong> 匯入報價變因文件至 ChromaDB。</li>
-        <li><strong>[Agent/Prompt]</strong> 調整 Orchestrator / Sales System Prompt。</li>
-        <li><strong>[Testing]</strong> 同步部署修正代碼，執行 DeepEval regression 確保綠燈通過。</li>
-        <li><strong>[Product]</strong> 評估導入 Temporal 工作流引擎以管理長時狀態。</li>
-      </ul>
+    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
+      <div class="card">
+        <h4><span class="done">P0 已完成</span></h4>
+        <ul class="dim mt-s" style="font-size:0.9em;">
+          <li>RAG S3 include prefix ingestion；官網衛教 ingest</li>
+          <li>BM25 與 ChromaDB 同步重建；走 Hybrid Search</li>
+          <li>意圖驗證改 <code>gpt-5-nano</code></li>
+          <li>booking-aware 接待；法令紋防重問 guard</li>
+          <li>VM 更新至 <code>744a48f</code> 並重啟</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4><span class="todo">P0 / P1 / P2 待做</span></h4>
+        <ul class="dim mt-s" style="font-size:0.9em;">
+          <li><strong>P0</strong>：VM 跑完整 DeepEval；抽樣 24–48h 真實 log；建高意願療程測試集</li>
+          <li><strong>P1</strong>：ingestion manifest；話術品質 rubric；RiskGuard E2E；評估打開 <code>use_multi_agent</code></li>
+          <li><strong>P2</strong>：跨境醫療 workflow；Temporal 長流程狀態引擎</li>
+        </ul>
+      </div>
     </div>
-    <div class="deck-footer"><span class="dim2">End of Report</span></div>
+    <div class="deck-footer"><span class="dim2">下一步：規劃 → 回歸測試 + 真實 log 監控 + KPI 驗證</span></div>
   </section>
 
 </div>
