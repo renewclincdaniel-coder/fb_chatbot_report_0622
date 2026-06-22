@@ -30,7 +30,7 @@
     <p class="kicker">2026-06-22 · PM Report · Updated</p>
     <h1 class="h1 anim-fade-up" data-anim="fade-up" style="margin-bottom: 24px;">RenewClinic 智能客服<br><span class="gradient-text">優化與下一步行動報告</span></h1>
     <p class="lede">已依 2026-06-22 最新程式、VM 部署、RAG ingestion 與客服 log 修正</p>
-    <div class="deck-footer"><span class="dim2">專案管理與開發團隊</span><span class="slide-number" data-current="1" data-total="12"></span></div>
+    <div class="deck-footer"><span class="dim2">專案管理與開發團隊</span><span class="slide-number" data-current="1" data-total="13"></span></div>
     <div class="notes">本報告已更新為「修正後狀態」，重點從規劃轉為回歸測試 + 真實 log 監控 + KPI 驗證。</div>
   </section>
 
@@ -70,16 +70,16 @@
         <p class="dim mt-s" style="font-size:0.82em;">廣告投放是壓倒性入口 → 必須針對「快速按鈕 → 確認需求 → 轉諮詢」流程最佳化。</p>
       </div>
       <div class="card">
-        <h4>轉化漏斗 (Conversion Funnel)</h4>
+        <h4>對話深度分佈 (互斥，加總 100%)</h4>
         <table class="mini">
-          <tr><th>階段</th><th>佔比</th></tr>
-          <tr><td>廣告來源</td><td>89.4%</td></tr>
-          <tr><td>轉接 LINE / WhatsApp</td><td><strong>57.2%</strong></td></tr>
-          <tr><td>提供聯繫方式</td><td>46.7%</td></tr>
-          <tr><td>預約門診</td><td><span class="todo">29.4%</span></td></tr>
-          <tr><td>僅快速回覆無後續</td><td><span class="todo">17.2%</span></td></tr>
+          <tr><th>深度</th><th>對話數</th><th>佔比</th></tr>
+          <tr><td>中等 (5–10 訊息)</td><td>3,061</td><td>35.4%</td></tr>
+          <tr><td>深入 (11–20 訊息)</td><td>2,455</td><td>28.4%</td></tr>
+          <tr><td>非常深入 (&gt;20 訊息)</td><td>1,830</td><td>21.2%</td></tr>
+          <tr><td>淺層 (≤4 訊息)</td><td>1,045</td><td><span class="todo">12.1%</span></td></tr>
+          <tr><td>無互動</td><td>246</td><td><span class="todo">2.9%</span></td></tr>
         </table>
-        <p class="dim mt-s" style="font-size:0.82em;">核心瓶頸在「轉 LINE → 預約門診」之間 (57.2% → 29.4%)，正是 booking-aware 修正鎖定的環節。</p>
+        <p class="dim mt-s" style="font-size:0.82em;">85% 對話達 5 訊息以上，互動品質高；但淺層 + 無互動約 1,291 段是可搶救的早期流失。</p>
       </div>
     </div>
   </section>
@@ -111,6 +111,27 @@
           <tr><td>客戶已留下聯絡方式</td><td>8.35%</td></tr>
         </table>
         <p class="dim mt-s" style="font-size:0.82em;">兩大流失點都發生在「初次承接」——對應痛點①制式追問與策略四「高意願先承接、再留資」。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2d. Behavior Patterns & System Handling -->
+  <section class="slide" data-title="Behavior & Handling">
+    <p class="kicker">01b / 數據基礎</p>
+    <h2 class="h2">行為模式與系統對策</h2>
+    <p class="lede mt-m">同樣的廣告入口，為何 81.42% 流失、14.89% 承接？關鍵在<strong>客戶意願強度</strong>與<strong>客服承接時機</strong>，現行系統已針對性處理。</p>
+    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
+      <div class="card" style="border-left: 4px solid #ffb74d;">
+        <h4><span class="todo">無回覆 / 流失 81.42%</span></h4>
+        <p class="dim mt-s" style="font-size:0.88em;"><strong>客戶行為</strong>：多為廣告吸引、興趣淺。61% 只點一次療程快速回覆按鈕就停；或在客服打招呼 / 確認需求後不再回。</p>
+        <p class="dim mt-s" style="font-size:0.88em;"><strong>客服行為</strong>：停在制式節點——打招呼 (18.11%)、確認需求 (7.74%)、要求聯絡方式 (7.74%)，太早丟模板或索取個資，未先承接意圖。</p>
+        <p class="mt-s" style="font-size:0.88em;"><strong>系統對策</strong>：① 首輪先承接困擾、不丟衛教長文；② <code>treatment_booking_ready</code> 偵測「療程+時間+來做」直接進 booking-aware；③ 延後索取聯絡方式，先做價值交換；④ 防重問 guard 避免制式追問勸退。<span class="dim">(24–48h follow-up 抽樣為待做)</span></p>
+      </div>
+      <div class="card" style="border-left: 4px solid #4caf50;">
+        <h4><span class="done">明確轉換承接 14.89%</span></h4>
+        <p class="dim mt-s" style="font-size:0.88em;"><strong>客戶行為</strong>：主動描述困擾、給出時間意圖（「下週來做」）、回答探查題，或主動留下 LINE / 電話。</p>
+        <p class="dim mt-s" style="font-size:0.88em;"><strong>客服行為</strong>：順利走完「確認需求 → 教育說明 → 提供門診 / LINE 兩選項 → 收聯絡」SOP，且未重複鬼打牆。</p>
+        <p class="mt-s" style="font-size:0.88em;"><strong>系統對策</strong>：① contextual booking detection 保留時間 + 療程偏好直接進 <code>collect_line_id</code>；② contact bundle 防重複索取；③ RAG Hybrid Search 提供精準衛教建立信任；④ no-quote 顧問式引導維持高意願。</p>
       </div>
     </div>
   </section>
