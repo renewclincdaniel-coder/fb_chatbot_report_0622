@@ -1,194 +1,443 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-Hant" data-theme="corporate-clean">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RenewClinic Facebook 智能客服專案進度報告</title>
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" id="theme-link" href="assets/themes/corporate-clean.css">
-<link rel="stylesheet" href="assets/animations/animations.css">
 <style>
-  .deck { font-family: 'Inter','Noto Sans TC','Noto Sans SC',system-ui,sans-serif; }
-  .h1, .h2, .h3, .h4 { font-weight: 760; }
-  .lede { max-width: 66ch; }
-  .small { font-size: 0.84em; line-height: 1.55; }
-  .tight-list { margin: 0; padding-left: 1.15em; }
-  .tight-list li { margin: 7px 0; }
+  :root { scroll-behavior: smooth; }
+  html, body {
+    min-height: 100%;
+    overflow-x: hidden;
+    letter-spacing: 0;
+  }
+  body {
+    background: var(--bg-soft);
+    font-family: 'Inter','Noto Sans TC','Noto Sans SC',system-ui,sans-serif;
+  }
+  h1, h2, h3, h4, p { letter-spacing: 0; }
+  .report-page {
+    width: min(1120px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 32px 0 56px;
+  }
+  .hero {
+    padding: 52px 0 36px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.35fr .65fr;
+    gap: 32px;
+    align-items: end;
+  }
+  .eyebrow-line {
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    margin: 0 0 14px;
+  }
+  .hero h1 {
+    margin: 0;
+    color: var(--text-1);
+    font-size: 58px;
+    line-height: 1.08;
+    font-weight: 820;
+  }
+  .hero .subtitle {
+    margin: 22px 0 0;
+    color: var(--text-2);
+    font-size: 22px;
+    line-height: 1.55;
+    max-width: 720px;
+  }
+  .meta-panel {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+  .meta-panel p {
+    margin: 0;
+    color: var(--text-2);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .meta-panel strong { color: var(--text-1); }
+  .quick-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 14px 0;
+    margin: 0 0 22px;
+    background: color-mix(in srgb, var(--bg-soft) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: thin;
+  }
+  .quick-nav a {
+    flex: 0 0 auto;
+    color: var(--text-2);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 13px;
+    font-size: 14px;
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .quick-nav a:hover {
+    color: var(--accent);
+    border-color: color-mix(in srgb,var(--accent) 36%,transparent);
+    text-decoration: none;
+  }
+  .report-section {
+    scroll-margin-top: 86px;
+    padding: 34px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    align-items: start;
+    margin-bottom: 22px;
+  }
+  .section-num {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    padding-top: 10px;
+  }
+  .section-head h2 {
+    margin: 0;
+    color: var(--text-1);
+    font-size: 36px;
+    line-height: 1.18;
+    font-weight: 780;
+  }
+  .section-lede {
+    margin: 12px 0 0;
+    color: var(--text-2);
+    font-size: 19px;
+    line-height: 1.65;
+    max-width: 820px;
+  }
+  .grid { display: grid; gap: 18px; }
+  .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .card {
+    border-radius: 8px;
+    padding: 22px;
+  }
+  .card h3, .card h4 {
+    margin: 0 0 10px;
+    color: var(--text-1);
+    letter-spacing: 0;
+  }
+  .card p {
+    margin: 0;
+    color: var(--text-2);
+    line-height: 1.65;
+  }
+  .small { font-size: 15px; line-height: 1.65; }
+  .muted { color: var(--text-2); }
   .tag {
-    display: inline-block;
-    font-size: 0.72em;
-    padding: 2px 9px;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-top: 14px;
+    padding: 4px 10px;
     border-radius: 999px;
     border: 1px solid var(--border);
-    color: var(--text-2);
     background: var(--surface-2);
-    margin-left: 6px;
-    white-space: nowrap;
+    color: var(--text-2);
+    font-size: 13px;
+    font-weight: 700;
   }
   .tag.good {
     color: var(--good);
-    border-color: color-mix(in srgb,var(--good) 35%,transparent);
-    background: color-mix(in srgb,var(--good) 12%,transparent);
+    border-color: color-mix(in srgb,var(--good) 34%,transparent);
+    background: color-mix(in srgb,var(--good) 10%,var(--surface));
   }
   .tag.warn {
     color: var(--warn);
-    border-color: color-mix(in srgb,var(--warn) 35%,transparent);
-    background: color-mix(in srgb,var(--warn) 12%,transparent);
+    border-color: color-mix(in srgb,var(--warn) 34%,transparent);
+    background: color-mix(in srgb,var(--warn) 10%,var(--surface));
   }
   .tag.bad {
     color: var(--bad);
-    border-color: color-mix(in srgb,var(--bad) 35%,transparent);
-    background: color-mix(in srgb,var(--bad) 10%,transparent);
+    border-color: color-mix(in srgb,var(--bad) 34%,transparent);
+    background: color-mix(in srgb,var(--bad) 8%,var(--surface));
   }
-  .metric {
-    font-size: 42px;
-    line-height: 1;
-    font-weight: 800;
-    color: var(--text-1);
-    letter-spacing: var(--letter-tight);
-  }
-  .metric-label { color: var(--text-3); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
-  .callout {
-    border-left: 4px solid var(--accent);
-    background: color-mix(in srgb,var(--accent) 8%,var(--surface));
-  }
-  .callout.good {
-    border-left-color: var(--good);
-    background: color-mix(in srgb,var(--good) 8%,var(--surface));
-  }
-  .callout.warn {
-    border-left-color: var(--warn);
-    background: color-mix(in srgb,var(--warn) 8%,var(--surface));
-  }
-  .callout.bad {
-    border-left-color: var(--bad);
-    background: color-mix(in srgb,var(--bad) 7%,var(--surface));
-  }
-  .story-card {
-    min-height: 176px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .agenda-step {
+  .callout { border-left: 4px solid var(--accent); }
+  .callout.good { border-left-color: var(--good); }
+  .callout.warn { border-left-color: var(--warn); }
+  .callout.bad { border-left-color: var(--bad); }
+  .agenda-list {
     display: grid;
-    grid-template-columns: 64px 1fr;
-    gap: 18px;
+    gap: 14px;
+  }
+  .agenda-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 16px;
     align-items: start;
   }
   .agenda-num {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+    width: 42px;
+    height: 42px;
     display: grid;
     place-items: center;
+    border-radius: 50%;
     color: var(--accent);
-    border: 1px solid color-mix(in srgb,var(--accent) 32%,transparent);
-    background: color-mix(in srgb,var(--accent) 10%,transparent);
+    border: 1px solid color-mix(in srgb,var(--accent) 36%,transparent);
+    background: color-mix(in srgb,var(--accent) 9%,var(--surface));
     font-weight: 800;
   }
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .metric-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .metric-mini {
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+  }
+  .metric-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    padding: 18px;
+  }
+  .metric {
+    color: var(--text-1);
+    font-size: 38px;
+    line-height: 1;
+    font-weight: 820;
+  }
+  .metric-label {
+    margin-top: 8px;
+    color: var(--text-3);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0;
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+  table.mini {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+  table.mini th, table.mini td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.mini tr:last-child td { border-bottom: 0; }
+  table.mini th {
+    color: var(--text-3);
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0;
+  }
+  table.mini td:last-child, table.mini th:last-child { text-align: right; }
   .quote-box {
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 18px 20px;
+    border-radius: 8px;
     background: var(--surface-2);
-    font-size: 1.02em;
+    padding: 16px;
+    color: var(--text-2);
+    line-height: 1.7;
   }
   .quote-box strong { color: var(--text-1); }
-  table.mini { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.9em; }
-  table.mini th, table.mini td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  table.mini th { color: var(--text-3); font-weight: 650; }
-  table.mini td:last-child, table.mini th:last-child { text-align: right; }
-  .progress-row {
+  .step-list {
     display: grid;
-    grid-template-columns: 150px 1fr;
+    gap: 12px;
+  }
+  .step-row {
+    display: grid;
+    grid-template-columns: 142px 1fr;
     gap: 16px;
-    align-items: start;
     padding: 14px 0;
     border-bottom: 1px solid var(--border);
   }
-  .progress-row:last-child { border-bottom: 0; }
-  .plain-code {
-    font-family: var(--font-mono);
-    font-size: .82em;
+  .step-row:last-child { border-bottom: 0; }
+  .step-row strong { color: var(--text-1); }
+  ul.clean-list {
+    margin: 0;
+    padding-left: 1.15em;
     color: var(--text-2);
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 2px 6px;
-    white-space: nowrap;
+    line-height: 1.7;
   }
-  @media (max-width: 900px) {
-    .slide { padding: 54px 28px; }
-    .g2, .g3 { grid-template-columns: 1fr; }
+  ul.clean-list li { margin: 7px 0; }
+  .footer-note {
+    padding: 28px 0 0;
+    color: var(--text-3);
+    font-size: 14px;
+    text-align: center;
+  }
+  @media (max-width: 860px) {
+    .report-page {
+      width: min(100% - 28px, 720px);
+      padding: 18px 0 44px;
+    }
+    .hero { padding: 34px 0 24px; }
+    .hero-grid,
+    .section-head,
+    .grid-2,
+    .grid-3,
+    .metric-grid,
+    .metric-strip {
+      grid-template-columns: 1fr;
+    }
+    .hero h1 { font-size: 38px; line-height: 1.16; }
+    .hero .subtitle { font-size: 18px; }
+    .section-head { gap: 8px; }
+    .section-head h2 { font-size: 28px; line-height: 1.25; }
+    .section-lede { font-size: 17px; }
+    .quick-nav {
+      margin-left: -14px;
+      margin-right: -14px;
+      padding-left: 14px;
+      padding-right: 14px;
+    }
+    .quick-nav a { font-size: 13px; padding: 8px 12px; }
+    .card { padding: 18px; }
+    .agenda-item { grid-template-columns: 40px 1fr; gap: 12px; }
+    .agenda-num { width: 36px; height: 36px; }
+    .step-row { grid-template-columns: 1fr; gap: 6px; }
     .metric { font-size: 34px; }
+  }
+  @media (max-width: 520px) {
+    .report-page { width: calc(100% - 22px); }
+    .hero h1 { font-size: 32px; }
+    .section-head h2 { font-size: 24px; }
+    .meta-panel, .card, .metric-card { padding: 16px; }
+    table.mini { font-size: 14px; }
   }
 </style>
 </head>
-<body data-themes="corporate-clean,minimal-white,pitch-deck-vc,academic-paper,tokyo-night,swiss-grid" data-theme-base="assets/themes/">
-<div class="deck">
+<body>
+<main class="report-page">
+  <header class="hero" id="top">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow-line">PM Progress Report | 2026-06-22</p>
+        <h1>RenewClinic Facebook 智能客服專案進度</h1>
+        <p class="subtitle">用一個客戶旅程說清楚：客人從哪裡來、在哪裡停住、我們修了什麼，以及接下來怎麼驗證真的有效。</p>
+      </div>
+      <aside class="meta-panel" aria-label="報告資訊">
+        <p><strong>報告對象</strong><br>專案管理與開發團隊</p>
+        <p style="margin-top:12px"><strong>版本狀態</strong><br>已改為一頁式 RWD，手機可直接往下閱讀。</p>
+      </aside>
+    </div>
+  </header>
 
-  <section class="slide center tc" data-title="封面">
-    <p class="kicker">PM Progress Report | 2026-06-22</p>
-    <h1 class="h1 anim-fade-up" data-anim="fade-up">RenewClinic<br><span class="gradient-text">Facebook 智能客服專案進度</span></h1>
-    <p class="lede">這份報告用一個客戶旅程說清楚：客人從哪裡來、在哪裡停住、我們修了什麼，以及接下來怎麼驗證真的有效。</p>
-    <div class="deck-footer"><span>專案管理與開發團隊</span><span class="slide-number" data-current="1" data-total="13"></span></div>
-    <div class="notes">開場先把語氣定在專案進度匯報，不急著講技術。告訴聽眾今天不是看一堆系統名詞，而是順著客戶旅程看：流量進來、互動中斷、修正上線、下一步驗證。</div>
-  </section>
+  <nav class="quick-nav" aria-label="章節導覽">
+    <a href="#agenda">大綱</a>
+    <a href="#status">現況</a>
+    <a href="#source">入口</a>
+    <a href="#dropoff">斷點</a>
+    <a href="#fixes">修正</a>
+    <a href="#risk">風險</a>
+    <a href="#progress">進度</a>
+    <a href="#validation">驗收</a>
+    <a href="#actions">行動</a>
+    <a href="#conclusion">結論</a>
+  </nav>
 
-  <section class="slide" data-title="大綱">
-    <p class="kicker">00 / 今日大綱</p>
-    <h2 class="h2">用四幕看懂這次優化</h2>
-    <p class="lede mt-m">後面的頁面會依照這個順序展開，先看客戶故事，再看系統怎麼補位，最後回到專案管理的驗收與行動。</p>
-    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
-      <div class="card agenda-step">
-        <div class="agenda-num">1</div>
-        <div><h4>客戶從哪裡來</h4><p class="dim small">先看 8,637 筆對話的入口，確認最大流量不是一般私訊，而是廣告回覆。</p></div>
-      </div>
-      <div class="card agenda-step">
-        <div class="agenda-num">2</div>
-        <div><h4>客戶在哪裡停住</h4><p class="dim small">找出最大流失點：點完快速回覆後沒下文，以及客服開場後沒下文。</p></div>
-      </div>
-      <div class="card agenda-step">
-        <div class="agenda-num">3</div>
-        <div><h4>我們已經補了什麼</h4><p class="dim small">把高意願預約先接住、避免重複追問、調整知識庫與價格回覆方式。</p></div>
-      </div>
-      <div class="card agenda-step">
-        <div class="agenda-num">4</div>
-        <div><h4>接下來怎麼驗收</h4><p class="dim small">用測試、真實客服 log 與 KPI 確認：回覆率是否提升、流失是否下降。</p></div>
+  <section class="report-section" id="agenda">
+    <div class="section-head">
+      <div class="section-num">00 / 大綱</div>
+      <div>
+        <h2>用四幕看懂這次優化</h2>
+        <p class="section-lede">這份報告不走左右切換，改成順著頁面往下讀。先看客戶故事，再看系統怎麼補位，最後回到專案驗收與行動。</p>
       </div>
     </div>
-    <div class="notes">這頁是全案地圖。講的時候可用一句話串起來：我們不是為了做更複雜的 AI，而是要讓廣告進來的客人不要在最前面兩步就掉走。</div>
+    <div class="agenda-list">
+      <div class="card agenda-item">
+        <div class="agenda-num">1</div>
+        <div><h3>客戶從哪裡來</h3><p>先看 8,637 筆對話的入口，確認最大流量不是一般私訊，而是廣告回覆。</p></div>
+      </div>
+      <div class="card agenda-item">
+        <div class="agenda-num">2</div>
+        <div><h3>客戶在哪裡停住</h3><p>找出最大流失點：點完快速回覆後沒下文，以及客服開場後沒下文。</p></div>
+      </div>
+      <div class="card agenda-item">
+        <div class="agenda-num">3</div>
+        <div><h3>我們已經補了什麼</h3><p>把高意願預約先接住、避免重複追問、調整知識庫與價格回覆方式。</p></div>
+      </div>
+      <div class="card agenda-item">
+        <div class="agenda-num">4</div>
+        <div><h3>接下來怎麼驗收</h3><p>用測試、真實客服 log 與 KPI 確認：回覆率是否提升、流失是否下降。</p></div>
+      </div>
+    </div>
   </section>
 
-  <section class="slide" data-title="一句話現況">
-    <p class="kicker">01 / 現況總結</p>
-    <h2 class="h2">一句話：功能已補上，接下來要看真實成效</h2>
-    <p class="lede mt-m">6 月 22 日前後，我們已完成關鍵修正並部署。現在的重點不是再討論「要不要做」，而是用真實對話確認「修完後有沒有讓客人更願意回」。</p>
-    <div class="grid g3 mt-l">
-      <div class="card story-card callout good">
-        <div><h4>已修正</h4><p class="dim small">高意願預約、重複追問、知識庫資料範圍、價格不直接報價、聯絡資料重複索取。</p></div>
+  <section class="report-section" id="status">
+    <div class="section-head">
+      <div class="section-num">01 / 現況</div>
+      <div>
+        <h2>一句話：功能已補上，接下來要看真實成效</h2>
+        <p class="section-lede">6 月 22 日前後，我們已完成關鍵修正並部署。現在的重點不是再討論「要不要做」，而是用真實對話確認「修完後有沒有讓客人更願意回」。</p>
+      </div>
+    </div>
+    <div class="grid grid-3">
+      <div class="card callout good">
+        <h3>已修正</h3>
+        <p>高意願預約、重複追問、知識庫資料範圍、價格不直接報價、聯絡資料重複索取。</p>
         <span class="tag good">已上線</span>
       </div>
-      <div class="card story-card callout">
-        <div><h4>目前主線</h4><p class="dim small">正式訊息主要仍由既有 Facebook 客服流程處理；多代理架構先保留為後續擴充。</p></div>
+      <div class="card callout">
+        <h3>目前主線</h3>
+        <p>正式訊息主要仍由既有 Facebook 客服流程處理；多代理架構先保留為後續擴充。</p>
         <span class="tag">先穩定主流程</span>
       </div>
-      <div class="card story-card callout warn">
-        <div><h4>待確認</h4><p class="dim small">完整回歸測試、24 至 48 小時真實 log 抽樣、第二輪回覆率與留資承接率。</p></div>
+      <div class="card callout warn">
+        <h3>待確認</h3>
+        <p>完整回歸測試、24 至 48 小時真實 log 抽樣、第二輪回覆率與留資承接率。</p>
         <span class="tag warn">下一階段驗收</span>
       </div>
     </div>
-    <div class="notes">把技術現況翻成 PM 可管理的語言：已上線的是補關鍵斷點；尚未完成的是成效驗證。多代理架構不要在這份報告裡放大，避免聽眾以為正式流量已切換。</div>
   </section>
 
-  <section class="slide" data-title="客戶從哪裡來">
-    <p class="kicker">02 / 客戶故事的起點</p>
-    <h2 class="h2">大多數客人不是主動私訊，而是被廣告帶進來</h2>
-    <p class="lede mt-m">這會影響客服設計：廣告客的第一句通常意願還不穩，需要先接住興趣，而不是一開始就像表單一樣問資料。</p>
-    <div class="grid g2 mt-l">
-      <div class="card">
-        <h4>入口分佈</h4>
+  <section class="report-section" id="source">
+    <div class="section-head">
+      <div class="section-num">02 / 入口</div>
+      <div>
+        <h2>大多數客人不是主動私訊，而是被廣告帶進來</h2>
+        <p class="section-lede">這會影響客服設計：廣告客的第一句通常意願還不穩，需要先接住興趣，而不是一開始就像表單一樣問資料。</p>
+      </div>
+    </div>
+    <div class="grid grid-2">
+      <div class="table-wrap">
         <table class="mini">
           <tr><th>入口</th><th>對話數</th><th>佔比</th></tr>
           <tr><td>廣告回覆</td><td>7,722</td><td><strong>89.4%</strong></td></tr>
@@ -198,25 +447,23 @@
         </table>
       </div>
       <div class="card callout">
-        <h4>PM 解讀</h4>
-        <p class="dim mt-s">如果 9 成入口都來自廣告，那客服的第一任務不是「完整問卷」，而是「把剛被廣告吸引的興趣延續下去」。</p>
-        <div class="grid g2 mt-l">
-          <div><div class="metric">8,637</div><div class="metric-label">分析對話數</div></div>
-          <div><div class="metric">85%</div><div class="metric-label">達 5 則訊息以上</div></div>
-        </div>
-        <p class="dim small mt-m">代表互動不是完全沒有，只是需要在前幾輪更會接話。</p>
+        <h3>PM 解讀</h3>
+        <p>如果 9 成入口都來自廣告，那客服的第一任務不是「完整問卷」，而是「把剛被廣告吸引的興趣延續下去」。</p>
+        <div class="metric-strip"><div class="metric-mini"><div class="metric">8,637</div><div class="metric-label">分析對話數</div></div><div class="metric-mini"><div class="metric">85%</div><div class="metric-label">達 5 則訊息以上</div></div><div class="metric-mini"><div class="metric">89.4%</div><div class="metric-label">來自廣告回覆</div></div></div>
       </div>
     </div>
-    <div class="notes">這頁先建立「為什麼要改前幾輪話術」。重點不是展示所有數據，而是讓聽眾理解：廣告流量本來就比較冷，不能用同一套制式客服流程處理。</div>
   </section>
 
-  <section class="slide" data-title="客戶在哪停住">
-    <p class="kicker">03 / 最大斷點</p>
-    <h2 class="h2">流失最常發生在一開始：客人點了，但沒有繼續聊</h2>
-    <p class="lede mt-m">我們把 7,173 段廣告回覆對話依「最後停在哪一步」分類，發現最大問題不是後段成交，而是前段承接。</p>
-    <div class="grid g2 mt-l">
-      <div class="card callout bad">
-        <h4>終點大類</h4>
+  <section class="report-section" id="dropoff">
+    <div class="section-head">
+      <div class="section-num">03 / 斷點</div>
+      <div>
+        <h2>流失最常發生在一開始：客人點了，但沒有繼續聊</h2>
+        <p class="section-lede">我們把 7,173 段廣告回覆對話依「最後停在哪一步」分類，發現最大問題不是後段成交，而是前段承接。</p>
+      </div>
+    </div>
+    <div class="grid grid-2">
+      <div class="table-wrap">
         <table class="mini">
           <tr><th>結果</th><th>對話數</th><th>佔廣告回覆</th></tr>
           <tr><td>無回覆或流失</td><td>5,840</td><td><strong>81.42%</strong></td></tr>
@@ -226,98 +473,62 @@
         </table>
       </div>
       <div class="card">
-        <h4>兩個最常見停點</h4>
-        <div class="progress-row">
-          <strong>快速回覆後停住</strong>
-          <p class="dim small">客人點了療程按鈕，但沒有再往下回覆。佔廣告回覆 <strong>28.06%</strong>。</p>
+        <h3>兩個最常見停點</h3>
+        <div class="step-list">
+          <div class="step-row"><strong>快速回覆後停住</strong><p>客人點了療程按鈕，但沒有再往下回覆。佔廣告回覆 <strong>28.06%</strong>。</p></div>
+          <div class="step-row"><strong>客服開場後停住</strong><p>客服打招呼或確認需求後，客人不再回。佔廣告回覆 <strong>24.83%</strong>。</p></div>
         </div>
-        <div class="progress-row">
-          <strong>客服開場後停住</strong>
-          <p class="dim small">客服打招呼或確認需求後，客人不再回。佔廣告回覆 <strong>24.83%</strong>。</p>
-        </div>
-        <p class="dim small mt-m">結論：要先改善「第一輪怎麼接」與「第二輪不要讓人覺得被制式追問」。</p>
+        <p style="margin-top:14px">結論：先改善「第一輪怎麼接」與「第二輪不要讓人覺得被制式追問」。</p>
       </div>
     </div>
-    <div class="notes">這頁是問題定義。可直接說：如果前兩個停點就佔了很大比例，那 PM 優先級就很清楚，先修前段承接，不要一開始就把資源投在很後段的流程。</div>
   </section>
 
-  <section class="slide" data-title="修正一：先接住高意願">
-    <p class="kicker">04 / 已完成修正 1</p>
-    <h2 class="h2">客人說「下週想做」，系統要先當成預約意圖</h2>
-    <p class="lede mt-m">以前系統容易把這類訊息當成一般諮詢，繼續問部位。現在會先承接「想約時間」這件事，再補必要資訊。</p>
-    <div class="grid g2 mt-l">
+  <section class="report-section" id="fixes">
+    <div class="section-head">
+      <div class="section-num">04 / 修正</div>
+      <div>
+        <h2>已完成的三個關鍵修正</h2>
+        <p class="section-lede">修正方向不是讓 AI 更會講專業術語，而是讓它更像有記憶、懂時機的客服助理。</p>
+      </div>
+    </div>
+    <div class="grid grid-2">
       <div class="card callout bad">
-        <h4>修正前</h4>
-        <div class="quote-box mt-s"><strong>客人：</strong>我想看看，下週來做電音波<br><strong>系統：</strong>想請問您主要是想改善哪個部位呢？</div>
-        <p class="dim small mt-m">問題：客人已經給出時間和療程，卻被拉回一般問卷，容易中斷熱度。</p>
+        <h3>修正一：先接住高意願</h3>
+        <div class="quote-box"><strong>客人：</strong>我想看看，下週來做電音波<br><strong>舊系統：</strong>想請問您主要是想改善哪個部位呢？</div>
+        <p style="margin-top:14px">客人已經給出時間和療程，系統現在會先記下「下週、電音波、想到院」，再引導留下 LINE 或電話，讓專人確認可約時段。</p>
+        <span class="tag good">已改成預約承接</span>
       </div>
       <div class="card callout good">
-        <h4>修正後</h4>
-        <div class="quote-box mt-s"><strong>系統應先做：</strong>記下下週、電音波、想到院，再引導留下 LINE 或電話，讓專人確認可約時段。</div>
-        <p class="dim small mt-m">背後改動：偵測「療程 + 時間 + 想做」時，直接走預約承接流程。</p>
-      </div>
-    </div>
-    <div class="notes">用具體對話讓大家懂修正價值。這裡不需要講很多函式名稱，只需說明：客人已經透露高意願，客服就要先接住，而不是重新盤問。</div>
-  </section>
-
-  <section class="slide" data-title="修正二：不要重複追問">
-    <p class="kicker">05 / 已完成修正 2</p>
-    <h2 class="h2">客人回答過的問題，不要再問第二次</h2>
-    <p class="lede mt-m">這是很小的體驗問題，但對信任感影響很大。客人一覺得系統沒聽懂，就會把它當成機器人而離開。</p>
-    <div class="grid g2 mt-l">
-      <div class="card">
-        <h4>真實案例</h4>
-        <div class="quote-box mt-s">
-          <strong>系統：</strong>法令紋是笑的時候才明顯，還是不笑也看得到？<br>
-          <strong>客人：</strong>不笑也看得到<br>
-          <strong>舊系統：</strong>請問是笑的時候明顯，還是不笑也看得到？
-        </div>
-      </div>
-      <div class="card callout good">
-        <h4>現在怎麼處理</h4>
-        <ul class="tight-list dim mt-s">
-          <li>辨識客人已經回答探查題。</li>
-          <li>下一句改成承接與建議，而不是重問。</li>
-          <li>即使走到知識庫回覆，也會加上防重問規則。</li>
-        </ul>
-        <p class="small mt-m"><span class="tag good">已補 guard</span> 目標是讓客服更像有記憶的真人助理。</p>
-      </div>
-    </div>
-    <div class="notes">講這頁時可以強調：這不是炫技，而是最基本的對話禮貌。PM 驗收時要看真實 log 裡是否還有重問同一題。</div>
-  </section>
-
-  <section class="slide" data-title="修正三：知識庫與價格">
-    <p class="kicker">06 / 已完成修正 3</p>
-    <h2 class="h2">知識庫不只是塞更多資料，而是放對資料、說對話</h2>
-    <p class="lede mt-m">醫美客服不能只像百科全書，也不能在線上直接報固定價。這次調整把知識庫整理成「能幫助諮詢」的內容，而不是讓機器背價目表。</p>
-    <div class="grid g3 mt-l anim-stagger-list" data-anim-target>
-      <div class="card callout good">
-        <h4>資料範圍變乾淨</h4>
-        <p class="dim small">只匯入官網衛教、療程適應症、風險禁忌、術前後注意、價格變因與診所核心資訊。</p>
-        <span class="tag good">已重建</span>
+        <h3>修正二：不要重複追問</h3>
+        <div class="quote-box"><strong>系統：</strong>法令紋是笑的時候才明顯，還是不笑也看得到？<br><strong>客人：</strong>不笑也看得到</div>
+        <p style="margin-top:14px">現在會辨識客人已經回答探查題，下一句改成承接與建議，而不是再問同一題。</p>
+        <span class="tag good">已補防重問規則</span>
       </div>
       <div class="card callout">
-        <h4>回答方式更像顧問</h4>
-        <p class="dim small">價格問題改成：先理解預算疑慮，說明費用受部位、範圍、膚況與醫師評估影響，再引導專人確認。</p>
-        <span class="tag">不直接報固定價</span>
+        <h3>修正三：知識庫放對資料</h3>
+        <p>只匯入官網衛教、療程適應症、風險禁忌、術前後注意、價格變因與診所核心資訊。後台也已同步重建搜尋資料，確保查到的是最新審核內容。</p>
+        <span class="tag good">已重建</span>
       </div>
       <div class="card callout warn">
-        <h4>技術細節放在後台</h4>
-        <p class="dim small">S3 指定資料夾匯入、向量檢索與關鍵字檢索同步重建，確保查到的是最新審核資料。</p>
-        <span class="tag warn">持續治理</span>
+        <h3>價格問題改成顧問式回答</h3>
+        <p>價格問題不直接報固定價，而是先理解預算疑慮，說明費用受部位、範圍、膚況與醫師評估影響，再引導專人確認。</p>
+        <span class="tag warn">維持不直接報價</span>
       </div>
     </div>
-    <div class="notes">把 RAG 翻成「知識庫」。只在必要時補充：後台已重建資料來源與搜尋索引。對業務聽眾來說，重點是知識庫能讓回答更準，但不會違反不報價策略。</div>
   </section>
 
-  <section class="slide" data-title="風險與客訴">
-    <p class="kicker">07 / 風險處理</p>
-    <h2 class="h2">高風險訊息要先被攔下，再交給更穩的流程</h2>
-    <p class="lede mt-m">客訴、術後不適、情緒激動的比例可能不高，但影響最大。這部分不是讓 AI 自己硬聊，而是先判斷風險，再啟動更保守的回覆與人工處理。</p>
-    <div class="grid g2 mt-l">
+  <section class="report-section" id="risk">
+    <div class="section-head">
+      <div class="section-num">05 / 風險</div>
+      <div>
+        <h2>高風險訊息要先被攔下，再交給更穩的流程</h2>
+        <p class="section-lede">客訴、術後不適、情緒激動的比例可能不高，但影響最大。這部分不是讓 AI 自己硬聊，而是先判斷風險，再啟動更保守的回覆與人工處理。</p>
+      </div>
+    </div>
+    <div class="grid grid-2">
       <div class="card">
-        <h4>目前已存在的防線</h4>
-        <ul class="tight-list dim mt-s">
+        <h3>目前已存在的防線</h3>
+        <ul class="clean-list">
           <li>訊息進來後先做風險判斷。</li>
           <li>高風險狀況啟動危機模式。</li>
           <li>術後問題保留快速分流路徑。</li>
@@ -325,28 +536,27 @@
         </ul>
       </div>
       <div class="card callout warn">
-        <h4>下一步要補強</h4>
-        <div class="progress-row">
-          <strong>通知 SLA</strong>
-          <p class="dim small">明確定義多久內要通知人工客服或主管。</p>
-        </div>
-        <div class="progress-row">
-          <strong>抽樣稽核</strong>
-          <p class="dim small">定期回看高風險對話，確認語氣與分流正確。</p>
+        <h3>下一步要補強</h3>
+        <div class="step-list">
+          <div class="step-row"><strong>通知 SLA</strong><p>明確定義多久內要通知人工客服或主管。</p></div>
+          <div class="step-row"><strong>抽樣稽核</strong><p>定期回看高風險對話，確認語氣與分流正確。</p></div>
         </div>
       </div>
     </div>
-    <div class="notes">這頁要讓管理者放心：風險不是事後才處理，已經在訊息進來的前段做判斷。但也要誠實說下一步還要補通知與稽核，這才是 PM 進度報告的語氣。</div>
   </section>
 
-  <section class="slide" data-title="目前完成進度">
-    <p class="kicker">08 / 目前完成進度</p>
-    <h2 class="h2">6 月 22 日已完成的交付</h2>
-    <p class="lede mt-m">這些不是待辦，而是已完成並部署的項目。接下來的工作會從「功能完成」切到「驗證成效」。</p>
-    <div class="grid g2 mt-l">
+  <section class="report-section" id="progress">
+    <div class="section-head">
+      <div class="section-num">06 / 進度</div>
+      <div>
+        <h2>6 月 22 日已完成的交付</h2>
+        <p class="section-lede">這些不是待辦，而是已完成並部署的項目。接下來的工作會從「功能完成」切到「驗證成效」。</p>
+      </div>
+    </div>
+    <div class="grid grid-2">
       <div class="card">
-        <h4>對話體驗修正</h4>
-        <ul class="tight-list dim mt-s">
+        <h3>對話體驗修正</h3>
+        <ul class="clean-list">
           <li>高意願預約先承接，再引導留資料。</li>
           <li>已提供聯絡方式時，不重複索取。</li>
           <li>法令紋探查題已補防重問。</li>
@@ -354,64 +564,61 @@
         </ul>
       </div>
       <div class="card">
-        <h4>系統與資料更新</h4>
-        <ul class="tight-list dim mt-s">
+        <h3>系統與資料更新</h3>
+        <ul class="clean-list">
           <li>官網衛教與診所核心資料已重新匯入。</li>
           <li>知識庫搜尋資料已同步重建。</li>
           <li>意圖判斷模型已更新。</li>
-          <li>VM 已部署至 <span class="plain-code">744a48f</span>，服務狀態 healthy。</li>
+          <li>VM 已部署至 744a48f，服務狀態 healthy。</li>
         </ul>
       </div>
     </div>
-    <div class="grid g3 mt-l">
-      <div class="card tc"><div class="metric">26</div><div class="metric-label">目標回歸測試通過</div></div>
-      <div class="card tc"><div class="metric">1.0000</div><div class="metric-label">不報價合規</div></div>
-      <div class="card tc"><div class="metric">0.8571</div><div class="metric-label">繁中品質評估</div></div>
+    <div class="metric-grid" style="margin-top:18px">
+      <div class="metric-card"><div class="metric">26</div><div class="metric-label">目標回歸測試通過</div></div>
+      <div class="metric-card"><div class="metric">1.0000</div><div class="metric-label">不報價合規</div></div>
+      <div class="metric-card"><div class="metric">0.8571</div><div class="metric-label">繁中品質評估</div></div>
     </div>
-    <div class="notes">這頁用 PM 交付語言呈現。數字要講清楚來源：26 是目標回歸測試，不等於所有測試；1.0000 是價格不直接報價的合規分數；0.8571 是繁中品質摘要。</div>
   </section>
 
-  <section class="slide" data-title="仍要驗證">
-    <p class="kicker">09 / 驗收重點</p>
-    <h2 class="h2">接下來要回答三個問題</h2>
-    <p class="lede mt-m">功能修完只是第一步，真正要看的是客戶行為有沒有改變。下一階段會用測試和真實客服紀錄雙軌驗證。</p>
-    <div class="grid g3 mt-l anim-stagger-list" data-anim-target>
-      <div class="card callout">
-        <h4>1. 客人有沒有更願意回？</h4>
-        <p class="dim small">觀察第二輪回覆率，尤其是廣告快速回覆後的下一句是否提升。</p>
-      </div>
-      <div class="card callout">
-        <h4>2. 高意願有沒有被接住？</h4>
-        <p class="dim small">追蹤「下週想做、想預約、想來看看」是否直接走預約承接，而不是被一般探問打斷。</p>
-      </div>
-      <div class="card callout">
-        <h4>3. 有沒有再犯老問題？</h4>
-        <p class="dim small">抽樣檢查重複追問、過早索取個資、百科式長文、已留資料仍重問。</p>
+  <section class="report-section" id="validation">
+    <div class="section-head">
+      <div class="section-num">07 / 驗收</div>
+      <div>
+        <h2>接下來要回答三個問題</h2>
+        <p class="section-lede">功能修完只是第一步，真正要看的是客戶行為有沒有改變。下一階段會用測試和真實客服紀錄雙軌驗證。</p>
       </div>
     </div>
-    <div class="card callout warn mt-l">
-      <h4>驗收方式</h4>
-      <p class="dim small mt-s">先跑完整回歸測試，再抽樣最近 24 至 48 小時真實客服 log。測試看「不會壞」，真實 log 看「客人是否真的比較願意聊」。</p>
+    <div class="grid grid-3">
+      <div class="card callout"><h3>1. 客人有沒有更願意回？</h3><p>觀察第二輪回覆率，尤其是廣告快速回覆後的下一句是否提升。</p></div>
+      <div class="card callout"><h3>2. 高意願有沒有被接住？</h3><p>追蹤「下週想做、想預約、想來看看」是否直接走預約承接，而不是被一般探問打斷。</p></div>
+      <div class="card callout"><h3>3. 有沒有再犯老問題？</h3><p>抽樣檢查重複追問、過早索取個資、百科式長文、已留資料仍重問。</p></div>
     </div>
-    <div class="notes">這頁讓報告從已完成進到下一步。建議講法：我們不會只用測試分數說成功，因為客服優化最後要回到客人有沒有繼續對話。</div>
+    <div class="card callout warn" style="margin-top:18px">
+      <h3>驗收方式</h3>
+      <p>先跑完整回歸測試，再抽樣最近 24 至 48 小時真實客服 log。測試看「不會壞」，真實 log 看「客人是否真的比較願意聊」。</p>
+    </div>
   </section>
 
-  <section class="slide" data-title="行動清單">
-    <p class="kicker">10 / 行動清單</p>
-    <h2 class="h2">下一階段任務拆成 P0、P1、P2</h2>
-    <p class="lede mt-m">P0 先確保這次修正有效且沒有副作用；P1 把流程變成可長期管理；P2 再處理更長週期與跨境客戶場景。</p>
-    <div class="grid g3 mt-l">
+  <section class="report-section" id="actions">
+    <div class="section-head">
+      <div class="section-num">08 / 行動</div>
+      <div>
+        <h2>下一階段任務拆成 P0、P1、P2</h2>
+        <p class="section-lede">P0 先確保這次修正有效且沒有副作用；P1 把流程變成可長期管理；P2 再處理更長週期與跨境客戶場景。</p>
+      </div>
+    </div>
+    <div class="grid grid-3">
       <div class="card callout bad">
-        <h4>P0：本週要完成</h4>
-        <ul class="tight-list dim small mt-s">
+        <h3>P0：本週要完成</h3>
+        <ul class="clean-list">
           <li>跑完整回歸測試。</li>
           <li>抽樣 24 至 48 小時真實 log。</li>
           <li>建立高意願預約測試集：電音波、音波、電波、皮秒、肉毒、玻尿酸。</li>
         </ul>
       </div>
       <div class="card callout warn">
-        <h4>P1：穩定營運</h4>
-        <ul class="tight-list dim small mt-s">
+        <h3>P1：穩定營運</h3>
+        <ul class="clean-list">
           <li>建立知識庫匯入紀錄。</li>
           <li>建立客服話術品質評分表。</li>
           <li>補齊風險與危機處理的端到端測試。</li>
@@ -419,36 +626,38 @@
         </ul>
       </div>
       <div class="card callout">
-        <h4>P2：後續擴充</h4>
-        <ul class="tight-list dim small mt-s">
+        <h3>P2：後續擴充</h3>
+        <ul class="clean-list">
           <li>跨境醫療流程：停留天數、搭機、視訊諮詢、術後照護。</li>
           <li>跨天預約與術後追蹤的長流程狀態管理。</li>
         </ul>
       </div>
     </div>
-    <div class="notes">這頁是 PM 可執行的待辦。P0 不要放太多，重點是驗證剛上線的修正。P1 是讓系統可維護，P2 才是擴張功能。</div>
   </section>
 
-  <section class="slide" data-title="結論">
-    <p class="kicker">11 / 結論</p>
-    <h2 class="h2">這次優化的核心：讓客服先聽懂，再引導下一步</h2>
-    <p class="lede mt-m">系統架構已經具備基礎能力，真正影響成效的是前幾輪對話是否像真人一樣接得住：不重問、不急著要資料、不亂報價，並在高意願出現時把預約接起來。</p>
-    <div class="grid g2 mt-l">
-      <div class="card callout good">
-        <h4>已經完成的轉變</h4>
-        <p class="dim">從「規劃優化」進到「修正已部署」。重點功能已補上，目標回歸測試已通過。</p>
-      </div>
-      <div class="card callout warn">
-        <h4>接下來的管理重點</h4>
-        <p class="dim">從「修功能」進到「看成效」。用真實對話與 KPI 確認客人是否更願意繼續聊、留資料、進到人工確認。</p>
+  <section class="report-section" id="conclusion">
+    <div class="section-head">
+      <div class="section-num">09 / 結論</div>
+      <div>
+        <h2>這次優化的核心：讓客服先聽懂，再引導下一步</h2>
+        <p class="section-lede">系統架構已經具備基礎能力，真正影響成效的是前幾輪對話是否像真人一樣接得住：不重問、不急著要資料、不亂報價，並在高意願出現時把預約接起來。</p>
       </div>
     </div>
-    <div class="deck-footer"><span>下一步：完整回歸測試 + 真實 log 監控 + KPI 驗證</span><span class="slide-number" data-current="13" data-total="13"></span></div>
-    <div class="notes">收尾要把故事拉回大綱：客戶從廣告來，在前段停住，我們補了前段承接、知識庫與風險處理，下一步就是用真實數據驗收。這樣收束會比單純列技術項目更像 PM 匯報。</div>
+    <div class="grid grid-2">
+      <div class="card callout good">
+        <h3>已經完成的轉變</h3>
+        <p>從「規劃優化」進到「修正已部署」。重點功能已補上，目標回歸測試已通過。</p>
+      </div>
+      <div class="card callout warn">
+        <h3>接下來的管理重點</h3>
+        <p>從「修功能」進到「看成效」。用真實對話與 KPI 確認客人是否更願意繼續聊、留資料、進到人工確認。</p>
+      </div>
+    </div>
   </section>
 
-</div>
-<script src="assets/runtime.js"></script>
-<script src="assets/animations/fx-runtime.js"></script>
+  <p class="footer-note">下一步：完整回歸測試 + 真實 log 監控 + KPI 驗證</p>
+</main>
 </body>
 </html>
+
+
