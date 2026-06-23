@@ -1,313 +1,454 @@
-<!DOCTYPE html>
-<html lang="zh-CN" data-theme="tokyo-night">
+﻿<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="corporate-clean">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RenewClinic 智能客服 (Facebook CS) 優化與下一步行動報告</title>
+<title>RenewClinic Facebook 智能客服專案進度報告</title>
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" id="theme-link" href="assets/themes/tokyo-night.css">
+<link rel="stylesheet" id="theme-link" href="assets/themes/corporate-clean.css">
 <link rel="stylesheet" href="assets/animations/animations.css">
 <style>
-  /* Custom overrides for better readability if needed */
-  .deck { font-family: 'Inter', system-ui, sans-serif; }
-  .h1, .h2, .h3, .h4 { font-weight: 700; }
-  .dim { opacity: 0.8; }
-  .done { color: #4caf50; font-weight: 700; }
-  .todo { color: #ffb74d; font-weight: 700; }
-  table.mini { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.92em; }
-  table.mini th, table.mini td { text-align: left; padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,0.12); }
-  table.mini th { opacity: 0.7; font-weight: 600; }
-  table.mini code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; }
-  .pill { display: inline-block; font-size: 0.78em; padding: 2px 8px; border-radius: 999px; background: rgba(76,175,80,0.18); color: #4caf50; margin-left: 6px; }
-  .pill.warn { background: rgba(255,183,77,0.18); color: #ffb74d; }
+  .deck { font-family: 'Inter','Noto Sans TC','Noto Sans SC',system-ui,sans-serif; }
+  .h1, .h2, .h3, .h4 { font-weight: 760; }
+  .lede { max-width: 66ch; }
+  .small { font-size: 0.84em; line-height: 1.55; }
+  .tight-list { margin: 0; padding-left: 1.15em; }
+  .tight-list li { margin: 7px 0; }
+  .tag {
+    display: inline-block;
+    font-size: 0.72em;
+    padding: 2px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    background: var(--surface-2);
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+  .tag.good {
+    color: var(--good);
+    border-color: color-mix(in srgb,var(--good) 35%,transparent);
+    background: color-mix(in srgb,var(--good) 12%,transparent);
+  }
+  .tag.warn {
+    color: var(--warn);
+    border-color: color-mix(in srgb,var(--warn) 35%,transparent);
+    background: color-mix(in srgb,var(--warn) 12%,transparent);
+  }
+  .tag.bad {
+    color: var(--bad);
+    border-color: color-mix(in srgb,var(--bad) 35%,transparent);
+    background: color-mix(in srgb,var(--bad) 10%,transparent);
+  }
+  .metric {
+    font-size: 42px;
+    line-height: 1;
+    font-weight: 800;
+    color: var(--text-1);
+    letter-spacing: var(--letter-tight);
+  }
+  .metric-label { color: var(--text-3); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: color-mix(in srgb,var(--accent) 8%,var(--surface));
+  }
+  .callout.good {
+    border-left-color: var(--good);
+    background: color-mix(in srgb,var(--good) 8%,var(--surface));
+  }
+  .callout.warn {
+    border-left-color: var(--warn);
+    background: color-mix(in srgb,var(--warn) 8%,var(--surface));
+  }
+  .callout.bad {
+    border-left-color: var(--bad);
+    background: color-mix(in srgb,var(--bad) 7%,var(--surface));
+  }
+  .story-card {
+    min-height: 176px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .agenda-step {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  .agenda-num {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb,var(--accent) 32%,transparent);
+    background: color-mix(in srgb,var(--accent) 10%,transparent);
+    font-weight: 800;
+  }
+  .quote-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    background: var(--surface-2);
+    font-size: 1.02em;
+  }
+  .quote-box strong { color: var(--text-1); }
+  table.mini { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.9em; }
+  table.mini th, table.mini td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.mini th { color: var(--text-3); font-weight: 650; }
+  table.mini td:last-child, table.mini th:last-child { text-align: right; }
+  .progress-row {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .progress-row:last-child { border-bottom: 0; }
+  .plain-code {
+    font-family: var(--font-mono);
+    font-size: .82em;
+    color: var(--text-2);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 2px 6px;
+    white-space: nowrap;
+  }
+  @media (max-width: 900px) {
+    .slide { padding: 54px 28px; }
+    .g2, .g3 { grid-template-columns: 1fr; }
+    .metric { font-size: 34px; }
+  }
 </style>
 </head>
-<body data-themes="tokyo-night,corporate-clean,minimal-white,pitch-deck-vc,academic-paper,dracula" data-theme-base="assets/themes/">
+<body data-themes="corporate-clean,minimal-white,pitch-deck-vc,academic-paper,tokyo-night,swiss-grid" data-theme-base="assets/themes/">
 <div class="deck">
 
-  <!-- 1. Cover -->
-  <section class="slide center tc" data-title="Cover">
-    <p class="kicker">2026-06-22 · PM Report · Updated</p>
-    <h1 class="h1 anim-fade-up" data-anim="fade-up" style="margin-bottom: 24px;">RenewClinic 智能客服<br><span class="gradient-text">優化與下一步行動報告</span></h1>
-    <p class="lede">已依 2026-06-22 最新程式、VM 部署、RAG ingestion 與客服 log 修正</p>
-    <div class="deck-footer"><span class="dim2">專案管理與開發團隊</span><span class="slide-number" data-current="1" data-total="13"></span></div>
-    <div class="notes">本報告已更新為「修正後狀態」，重點從規劃轉為回歸測試 + 真實 log 監控 + KPI 驗證。</div>
+  <section class="slide center tc" data-title="封面">
+    <p class="kicker">PM Progress Report | 2026-06-22</p>
+    <h1 class="h1 anim-fade-up" data-anim="fade-up">RenewClinic<br><span class="gradient-text">Facebook 智能客服專案進度</span></h1>
+    <p class="lede">這份報告用一個客戶旅程說清楚：客人從哪裡來、在哪裡停住、我們修了什麼，以及接下來怎麼驗證真的有效。</p>
+    <div class="deck-footer"><span>專案管理與開發團隊</span><span class="slide-number" data-current="1" data-total="13"></span></div>
+    <div class="notes">開場先把語氣定在專案進度匯報，不急著講技術。告訴聽眾今天不是看一堆系統名詞，而是順著客戶旅程看：流量進來、互動中斷、修正上線、下一步驗證。</div>
   </section>
 
-  <!-- 2. Executive Summary -->
-  <section class="slide" data-title="Executive Summary">
-    <p class="kicker">01 / Executive Summary</p>
-    <h2 class="h2">執行摘要</h2>
-    <p class="lede mt-m">系統已具備完整 <strong>FastAPI + Celery + Redis + PostgreSQL + ChromaDB + RAG</strong> 架構。Multi-Agent ReAct 已建置但 <code>use_multi_agent=False</code>，<strong>正式流量主路由仍為 FacebookAgent</strong>。</p>
+  <section class="slide" data-title="大綱">
+    <p class="kicker">00 / 今日大綱</p>
+    <h2 class="h2">用四幕看懂這次優化</h2>
+    <p class="lede mt-m">後面的頁面會依照這個順序展開，先看客戶故事，再看系統怎麼補位，最後回到專案管理的驗收與行動。</p>
     <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
-      <div class="card">
-        <h4>2026-06-22 已完成 <span class="pill">DONE</span></h4>
-        <p class="dim mt-s">RAG 改 S3 prefix ingestion、官網衛教資料 ingest、BM25 重建、Hybrid Search、意圖驗證改 <code>gpt-5-nano</code>、booking-aware routing、防重問 guard，VM 部署至 <code>744a48f</code>，目標回歸 <strong>26 passed</strong>。</p>
+      <div class="card agenda-step">
+        <div class="agenda-num">1</div>
+        <div><h4>客戶從哪裡來</h4><p class="dim small">先看 8,637 筆對話的入口，確認最大流量不是一般私訊，而是廣告回覆。</p></div>
       </div>
-      <div class="card">
-        <h4>下一步焦點 <span class="pill warn">NEXT</span></h4>
-        <p class="dim mt-s">從「規劃」轉為「完整 DeepEval regression + 真實 log 監控 + KPI 驗證」，確認 booking-aware 修正能否提升第二輪回覆率、降低制式追問流失。</p>
+      <div class="card agenda-step">
+        <div class="agenda-num">2</div>
+        <div><h4>客戶在哪裡停住</h4><p class="dim small">找出最大流失點：點完快速回覆後沒下文，以及客服開場後沒下文。</p></div>
       </div>
-    </div>
-  </section>
-
-  <!-- 2b. Data Foundation: Entry Source & Funnel -->
-  <section class="slide" data-title="Data Foundation">
-    <p class="kicker">01b / 數據基礎</p>
-    <h2 class="h2">分析母體：8,637 筆對話</h2>
-    <p class="lede mt-m">先以<strong>進入管道</strong>切分流量，再看<strong>轉化漏斗</strong>定位瓶頸，所有痛點與策略皆由此推導。<span class="dim">(來源：2026-05-04 對話統計分析)</span></p>
-    <div class="grid g2 mt-l">
-      <div class="card">
-        <h4>進入管道切分 (Entry Source)</h4>
-        <table class="mini">
-          <tr><th>管道</th><th>對話數</th><th>佔比</th></tr>
-          <tr><td>📢 廣告回覆 Ad Reply</td><td>7,722</td><td><strong>89.4%</strong></td></tr>
-          <tr><td>💬 貼文留言 Comment</td><td>507</td><td>5.9%</td></tr>
-          <tr><td>✉️ 直接私訊 DM</td><td>390</td><td>4.5%</td></tr>
-          <tr><td>📞 未接來電</td><td>12</td><td>0.1%</td></tr>
-          <tr><td>↩️ 貼文回覆 Post Reply</td><td>6</td><td>0.1%</td></tr>
-        </table>
-        <p class="dim mt-s" style="font-size:0.82em;">廣告投放是壓倒性入口 → 必須針對「快速按鈕 → 確認需求 → 轉諮詢」流程最佳化。</p>
+      <div class="card agenda-step">
+        <div class="agenda-num">3</div>
+        <div><h4>我們已經補了什麼</h4><p class="dim small">把高意願預約先接住、避免重複追問、調整知識庫與價格回覆方式。</p></div>
       </div>
-      <div class="card">
-        <h4>對話深度分佈 (互斥，加總 100%)</h4>
-        <table class="mini">
-          <tr><th>深度</th><th>對話數</th><th>佔比</th></tr>
-          <tr><td>中等 (5–10 訊息)</td><td>3,061</td><td>35.4%</td></tr>
-          <tr><td>深入 (11–20 訊息)</td><td>2,455</td><td>28.4%</td></tr>
-          <tr><td>非常深入 (&gt;20 訊息)</td><td>1,830</td><td>21.2%</td></tr>
-          <tr><td>淺層 (≤4 訊息)</td><td>1,045</td><td><span class="todo">12.1%</span></td></tr>
-          <tr><td>無互動</td><td>246</td><td><span class="todo">2.9%</span></td></tr>
-        </table>
-        <p class="dim mt-s" style="font-size:0.82em;">85% 對話達 5 訊息以上，互動品質高；但淺層 + 無互動約 1,291 段是可搶救的早期流失。</p>
+      <div class="card agenda-step">
+        <div class="agenda-num">4</div>
+        <div><h4>接下來怎麼驗收</h4><p class="dim small">用測試、真實客服 log 與 KPI 確認：回覆率是否提升、流失是否下降。</p></div>
       </div>
     </div>
+    <div class="notes">這頁是全案地圖。講的時候可用一句話串起來：我們不是為了做更複雜的 AI，而是要讓廣告進來的客人不要在最前面兩步就掉走。</div>
   </section>
 
-  <!-- 2c. Data Foundation: Ad-Reply Endpoint Segmentation -->
-  <section class="slide" data-title="Endpoint Segmentation">
-    <p class="kicker">01b / 數據基礎</p>
-    <h2 class="h2">廣告回覆終點分類</h2>
-    <p class="lede mt-m">對 <strong>7,173 段</strong>廣告回覆對話 (83.05%) 以「對話終點」做互斥切分，量化流失發生在哪一步。</p>
+  <section class="slide" data-title="一句話現況">
+    <p class="kicker">01 / 現況總結</p>
+    <h2 class="h2">一句話：功能已補上，接下來要看真實成效</h2>
+    <p class="lede mt-m">6 月 22 日前後，我們已完成關鍵修正並部署。現在的重點不是再討論「要不要做」，而是用真實對話確認「修完後有沒有讓客人更願意回」。</p>
+    <div class="grid g3 mt-l">
+      <div class="card story-card callout good">
+        <div><h4>已修正</h4><p class="dim small">高意願預約、重複追問、知識庫資料範圍、價格不直接報價、聯絡資料重複索取。</p></div>
+        <span class="tag good">已上線</span>
+      </div>
+      <div class="card story-card callout">
+        <div><h4>目前主線</h4><p class="dim small">正式訊息主要仍由既有 Facebook 客服流程處理；多代理架構先保留為後續擴充。</p></div>
+        <span class="tag">先穩定主流程</span>
+      </div>
+      <div class="card story-card callout warn">
+        <div><h4>待確認</h4><p class="dim small">完整回歸測試、24 至 48 小時真實 log 抽樣、第二輪回覆率與留資承接率。</p></div>
+        <span class="tag warn">下一階段驗收</span>
+      </div>
+    </div>
+    <div class="notes">把技術現況翻成 PM 可管理的語言：已上線的是補關鍵斷點；尚未完成的是成效驗證。多代理架構不要在這份報告裡放大，避免聽眾以為正式流量已切換。</div>
+  </section>
+
+  <section class="slide" data-title="客戶從哪裡來">
+    <p class="kicker">02 / 客戶故事的起點</p>
+    <h2 class="h2">大多數客人不是主動私訊，而是被廣告帶進來</h2>
+    <p class="lede mt-m">這會影響客服設計：廣告客的第一句通常意願還不穩，需要先接住興趣，而不是一開始就像表單一樣問資料。</p>
     <div class="grid g2 mt-l">
       <div class="card">
+        <h4>入口分佈</h4>
+        <table class="mini">
+          <tr><th>入口</th><th>對話數</th><th>佔比</th></tr>
+          <tr><td>廣告回覆</td><td>7,722</td><td><strong>89.4%</strong></td></tr>
+          <tr><td>貼文留言</td><td>507</td><td>5.9%</td></tr>
+          <tr><td>直接私訊</td><td>390</td><td>4.5%</td></tr>
+          <tr><td>其他</td><td>18</td><td>0.2%</td></tr>
+        </table>
+      </div>
+      <div class="card callout">
+        <h4>PM 解讀</h4>
+        <p class="dim mt-s">如果 9 成入口都來自廣告，那客服的第一任務不是「完整問卷」，而是「把剛被廣告吸引的興趣延續下去」。</p>
+        <div class="grid g2 mt-l">
+          <div><div class="metric">8,637</div><div class="metric-label">分析對話數</div></div>
+          <div><div class="metric">85%</div><div class="metric-label">達 5 則訊息以上</div></div>
+        </div>
+        <p class="dim small mt-m">代表互動不是完全沒有，只是需要在前幾輪更會接話。</p>
+      </div>
+    </div>
+    <div class="notes">這頁先建立「為什麼要改前幾輪話術」。重點不是展示所有數據，而是讓聽眾理解：廣告流量本來就比較冷，不能用同一套制式客服流程處理。</div>
+  </section>
+
+  <section class="slide" data-title="客戶在哪停住">
+    <p class="kicker">03 / 最大斷點</p>
+    <h2 class="h2">流失最常發生在一開始：客人點了，但沒有繼續聊</h2>
+    <p class="lede mt-m">我們把 7,173 段廣告回覆對話依「最後停在哪一步」分類，發現最大問題不是後段成交，而是前段承接。</p>
+    <div class="grid g2 mt-l">
+      <div class="card callout bad">
         <h4>終點大類</h4>
         <table class="mini">
-          <tr><th>大類</th><th>對話數</th><th>佔廣告回覆</th></tr>
-          <tr><td><span class="todo">無回覆 / 流失</span></td><td>5,840</td><td><strong>81.42%</strong></td></tr>
-          <tr><td><span class="done">明確轉換承接</span></td><td>1,068</td><td>14.89%</td></tr>
+          <tr><th>結果</th><th>對話數</th><th>佔廣告回覆</th></tr>
+          <tr><td>無回覆或流失</td><td>5,840</td><td><strong>81.42%</strong></td></tr>
+          <tr><td>明確轉換承接</td><td>1,068</td><td>14.89%</td></tr>
           <tr><td>客戶待客服回覆</td><td>184</td><td>2.57%</td></tr>
-          <tr><td>婉拒 / 預算疑慮</td><td>81</td><td>1.13%</td></tr>
+          <tr><td>婉拒或預算疑慮</td><td>81</td><td>1.13%</td></tr>
         </table>
       </div>
-      <div class="card" style="border-left: 4px solid #ffb74d;">
-        <h4>最大流失終點 (Top)</h4>
-        <table class="mini">
-          <tr><th>終點細分類</th><th>佔廣告回覆</th></tr>
-          <tr><td>快速回覆後無後續</td><td><strong>28.06%</strong></td></tr>
-          <tr><td>客服開場 / 釐清後無回覆</td><td><strong>24.83%</strong></td></tr>
-          <tr><td>客服提供預約 / 轉私域後無回覆</td><td>9.12%</td></tr>
-          <tr><td>客服要求聯絡方式後無回覆</td><td>7.74%</td></tr>
-          <tr><td>客戶已留下聯絡方式</td><td>8.35%</td></tr>
-        </table>
-        <p class="dim mt-s" style="font-size:0.82em;">兩大流失點都發生在「初次承接」——對應痛點①制式追問與策略四「高意願先承接、再留資」。</p>
+      <div class="card">
+        <h4>兩個最常見停點</h4>
+        <div class="progress-row">
+          <strong>快速回覆後停住</strong>
+          <p class="dim small">客人點了療程按鈕，但沒有再往下回覆。佔廣告回覆 <strong>28.06%</strong>。</p>
+        </div>
+        <div class="progress-row">
+          <strong>客服開場後停住</strong>
+          <p class="dim small">客服打招呼或確認需求後，客人不再回。佔廣告回覆 <strong>24.83%</strong>。</p>
+        </div>
+        <p class="dim small mt-m">結論：要先改善「第一輪怎麼接」與「第二輪不要讓人覺得被制式追問」。</p>
       </div>
     </div>
+    <div class="notes">這頁是問題定義。可直接說：如果前兩個停點就佔了很大比例，那 PM 優先級就很清楚，先修前段承接，不要一開始就把資源投在很後段的流程。</div>
   </section>
 
-  <!-- 2d. Behavior Patterns & System Handling -->
-  <section class="slide" data-title="Behavior & Handling">
-    <p class="kicker">01b / 數據基礎</p>
-    <h2 class="h2">行為模式與系統對策</h2>
-    <p class="lede mt-m">同樣的廣告入口，為何 81.42% 流失、14.89% 承接？關鍵在<strong>客戶意願強度</strong>與<strong>客服承接時機</strong>，現行系統已針對性處理。</p>
-    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
-      <div class="card" style="border-left: 4px solid #ffb74d;">
-        <h4><span class="todo">無回覆 / 流失 81.42%</span></h4>
-        <p class="dim mt-s" style="font-size:0.88em;"><strong>客戶行為</strong>：多為廣告吸引、興趣淺。61% 只點一次療程快速回覆按鈕就停；或在客服打招呼 / 確認需求後不再回。</p>
-        <p class="dim mt-s" style="font-size:0.88em;"><strong>客服行為</strong>：停在制式節點——打招呼 (18.11%)、確認需求 (7.74%)、要求聯絡方式 (7.74%)，太早丟模板或索取個資，未先承接意圖。</p>
-        <p class="mt-s" style="font-size:0.88em;"><strong>系統對策</strong>：① 首輪先承接困擾、不丟衛教長文；② <code>treatment_booking_ready</code> 偵測「療程+時間+來做」直接進 booking-aware；③ 延後索取聯絡方式，先做價值交換；④ 防重問 guard 避免制式追問勸退。<span class="dim">(24–48h follow-up 抽樣為待做)</span></p>
+  <section class="slide" data-title="修正一：先接住高意願">
+    <p class="kicker">04 / 已完成修正 1</p>
+    <h2 class="h2">客人說「下週想做」，系統要先當成預約意圖</h2>
+    <p class="lede mt-m">以前系統容易把這類訊息當成一般諮詢，繼續問部位。現在會先承接「想約時間」這件事，再補必要資訊。</p>
+    <div class="grid g2 mt-l">
+      <div class="card callout bad">
+        <h4>修正前</h4>
+        <div class="quote-box mt-s"><strong>客人：</strong>我想看看，下週來做電音波<br><strong>系統：</strong>想請問您主要是想改善哪個部位呢？</div>
+        <p class="dim small mt-m">問題：客人已經給出時間和療程，卻被拉回一般問卷，容易中斷熱度。</p>
       </div>
-      <div class="card" style="border-left: 4px solid #4caf50;">
-        <h4><span class="done">明確轉換承接 14.89%</span></h4>
-        <p class="dim mt-s" style="font-size:0.88em;"><strong>客戶行為</strong>：主動描述困擾、給出時間意圖（「下週來做」）、回答探查題，或主動留下 LINE / 電話。</p>
-        <p class="dim mt-s" style="font-size:0.88em;"><strong>客服行為</strong>：順利走完「確認需求 → 教育說明 → 提供門診 / LINE 兩選項 → 收聯絡」SOP，且未重複鬼打牆。</p>
-        <p class="mt-s" style="font-size:0.88em;"><strong>系統對策</strong>：① contextual booking detection 保留時間 + 療程偏好直接進 <code>collect_line_id</code>；② contact bundle 防重複索取；③ RAG Hybrid Search 提供精準衛教建立信任；④ no-quote 顧問式引導維持高意願。</p>
+      <div class="card callout good">
+        <h4>修正後</h4>
+        <div class="quote-box mt-s"><strong>系統應先做：</strong>記下下週、電音波、想到院，再引導留下 LINE 或電話，讓專人確認可約時段。</div>
+        <p class="dim small mt-m">背後改動：偵測「療程 + 時間 + 想做」時，直接走預約承接流程。</p>
       </div>
     </div>
+    <div class="notes">用具體對話讓大家懂修正價值。這裡不需要講很多函式名稱，只需說明：客人已經透露高意願，客服就要先接住，而不是重新盤問。</div>
   </section>
 
-  <!-- 3. System Status Calibration -->
-  <section class="slide" data-title="System Status">
-    <p class="kicker">02 / 系統狀態校準</p>
-    <h2 class="h2">目前真實系統狀態</h2>
+  <section class="slide" data-title="修正二：不要重複追問">
+    <p class="kicker">05 / 已完成修正 2</p>
+    <h2 class="h2">客人回答過的問題，不要再問第二次</h2>
+    <p class="lede mt-m">這是很小的體驗問題，但對信任感影響很大。客人一覺得系統沒聽懂，就會把它當成機器人而離開。</p>
     <div class="grid g2 mt-l">
       <div class="card">
-        <h4>生產路由現況</h4>
-        <p class="dim mt-s"><code>Webhook → Celery batched → MessageProcessor → FacebookAgent.process_message()</code></p>
-        <p class="dim mt-s">前段先做 bot pause、RiskGuard、prompt injection、lazy profile / contact extraction。Multi-Agent 為漸進式 feature flag，尚未承接正式流量。</p>
-      </div>
-      <div class="card">
-        <h4>模型設定現況</h4>
-        <table class="mini">
-          <tr><th>用途</th><th>模型</th></tr>
-          <tr><td>日常主對話</td><td><code>gpt-5.1-chat</code></td></tr>
-          <tr><td>情緒 / 風控</td><td><code>gpt-5-nano</code></td></tr>
-          <tr><td>危機處理</td><td><code>gpt-5.2-chat</code></td></tr>
-          <tr><td>意圖驗證</td><td><code>gpt-5-nano</code></td></tr>
-          <tr><td>備援</td><td><code>gemini-3.1-flash-lite</code> / <code>grok-4.1-fast</code></td></tr>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. RAG Governance -->
-  <section class="slide" data-title="RAG Status">
-    <p class="kicker">02 / 系統狀態校準</p>
-    <h2 class="h2">RAG 資料與 ingestion 現況</h2>
-    <p class="lede mt-m">策略已改為<strong>不在線上提供固定報價</strong>，RAG 只匯入適應症、風險禁忌、術前後注意、價格變因、官網衛教與診所核心資訊。</p>
-    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
-      <div class="card">
-        <h4>已 ingest <span class="pill">DONE</span></h4>
-        <p class="dim mt-s">S3：<code>files-to-vector-renew-clinic</code>，Collection：<code>aesthetic_clinic_rag</code><br>納入 <code>processed_data/core/</code> 與 <code>renew_clinic_website_rag_v2/topics/</code>；排除 <code>source_pages/</code>、<code>reports/</code>。BM25 同步重建。</p>
-      </div>
-      <div class="card">
-        <h4>固定 ingestion 指令</h4>
-        <p class="dim mt-s"><code>docker compose exec -e S3_INCLUDE_PREFIXES="processed_data/core/,processed_data/renew_clinic_website_rag_v2/topics/" app python scripts/ingest_from_s3.py</code></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Pain Points & Fix Status 1-2 -->
-  <section class="slide" data-title="Pain Points 1 & 2">
-    <p class="kicker">03 / 核心痛點與修正狀態</p>
-    <h2 class="h2">承接意圖與避免重複追問</h2>
-    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
-      <div class="card">
-        <h4>① 制式追問 <span class="pill">已修正</span></h4>
-        <p class="dim mt-s">「我想下週來做電音波」舊回覆只問「哪個部位」。已新增 <code>treatment_booking_ready</code>：療程+時間+來做 → 直接進 booking-aware 接待，<code>電音波</code> 保留為獨立標籤。</p>
-      </div>
-      <div class="card">
-        <h4>② RAG 重複問同題 <span class="pill">已修正</span></h4>
-        <p class="dim mt-s">客戶答完探查題後 query rewrite 又問同題。已新增 <code>_build_consultation_answer_followup()</code> 與 <code>_is_nasolabial_severity_reply()</code> guard，禁止重問笑/不笑。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Pain Points & Fix Status 3-5 -->
-  <section class="slide" data-title="Pain Points 3-5">
-    <p class="kicker">03 / 核心痛點與修正狀態</p>
-    <h2 class="h2">價格、留資與風控</h2>
-    <div class="grid g3 mt-l anim-stagger-list" data-anim-target>
-      <div class="card">
-        <h4>③ 價格 no-quote <span class="pill">已具備</span></h4>
-        <p class="dim mt-s"><code>rag_engine</code> no-quote guard，避免固定/區間/Unit 報價。No Quote Compliance <strong>1.0000</strong>，但 Medical Safety 仍待追。</p>
-      </div>
-      <div class="card">
-        <h4>④ Booking Flow <span class="pill">已修正</span></h4>
-        <p class="dim mt-s">contextual booking detection、contact bundle 回歸測試；「不是給你了嗎」不再重複索取，高意願直接進 <code>collect_line_id</code>。</p>
-      </div>
-      <div class="card" style="border-left: 4px solid #f44336;">
-        <h4>⑤ 客訴 / 危機 <span class="pill">基礎已存在</span></h4>
-        <p class="dim mt-s"><code>RiskGuard</code> 於 MessageProcessor 前段執行，CRITICAL 啟動 crisis mode（crisis model）。下一步補測試、通知 SLA 與抽樣稽核。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. Strategies 1-3 -->
-  <section class="slide" data-title="Strategies 1-3">
-    <p class="kicker">04 / 更新後優化方案</p>
-    <h2 class="h2">策略一～三</h2>
-    <div class="grid g3 mt-l anim-stagger-list" data-anim-target>
-      <div class="card">
-        <h4>一：以 FacebookAgent 為主體</h4>
-        <p class="dim mt-s">短期優化落在 <code>_detect/_handle_contextual_booking_request()</code>、<code>_should_explore_first()</code>、<code>_handle_standard_rag()</code>、<code>RiskGuard</code>、<code>booking_flow</code>。Multi-Agent 為中長期。</p>
-      </div>
-      <div class="card">
-        <h4>二：RAG 治理 + Hybrid Search</h4>
-        <p class="dim mt-s">每次更新產生 ingestion manifest；高頻療程建 query set（電音波、音波、電波、法令紋、皮秒、肉毒、玻尿酸），用 <code>debug_rag.py</code> 驗證 retrieval。</p>
-      </div>
-      <div class="card">
-        <h4>三：價格 no-quote 更像顧問</h4>
-        <p class="dim mt-s"><code>同理 → 說明費用變因 → 問不造成負擔的狀態題 → 邀請專人/諮詢</code>。禁止固定金額、區間、Unit/cc、推給他院比較。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. Strategies 4-5 -->
-  <section class="slide" data-title="Strategies 4-5">
-    <p class="kicker">04 / 更新後優化方案</p>
-    <h2 class="h2">策略四與五</h2>
-    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
-      <div class="card">
-        <h4>四：高意願先承接，再留資</h4>
-        <p class="dim mt-s">先記時間意圖（下週/明天/週三晚上），先承接療程困擾，回答探查題先關心不重問；用「專人幫您確認可約時段」作為留資理由。</p>
-        <p class="dim mt-s" style="font-size:0.85em;">已覆蓋：<code>test_treatment_time_ready_request_enters_booking_context</code>、<code>test_already_provided_contact_followup_does_not_reask_contact</code> 等。</p>
-      </div>
-      <div class="card">
-        <h4>五：DeepEval 與真實 log 雙軌</h4>
-        <p class="dim mt-s">① 快速回歸：booking、rag_price、post-op guard、risk guard。<br>② 完整 DeepEval：繁中品質、Booking Flow、No Quote、Medical Safety。<br>真實 log 持續抽樣，盯重複追問與百科式長文。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 9. KPIs -->
-  <section class="slide center tc" data-title="KPIs">
-    <div>
-      <p class="kicker">05 / 更新後 KPI</p>
-      <h2 class="h2">已達成 vs. 待驗證</h2>
-      <div class="grid g2 mt-l tc" style="text-align: left;">
-        <div class="card">
-          <h3 class="gradient-text">已達成 / 部分達成</h3>
-          <ul class="dim mt-s">
-            <li>No Quote Compliance：<span class="done">1.0000</span></li>
-            <li>繁中品質 (2026-06-15)：<span class="done">0.8571</span></li>
-            <li>目標回歸測試：<span class="done">26 passed</span></li>
-            <li>VM 部署 <code>744a48f</code>：<span class="done">healthy</span></li>
-          </ul>
+        <h4>真實案例</h4>
+        <div class="quote-box mt-s">
+          <strong>系統：</strong>法令紋是笑的時候才明顯，還是不笑也看得到？<br>
+          <strong>客人：</strong>不笑也看得到<br>
+          <strong>舊系統：</strong>請問是笑的時候明顯，還是不笑也看得到？
         </div>
-        <div class="card">
-          <h3 class="gradient-text">待驗證</h3>
-          <ul class="dim mt-s">
-            <li>完整 DeepEval regression 是否全綠</li>
-            <li>Booking Flow 第二輪回覆率是否提升</li>
-            <li>高意願客戶留資承接率是否提升</li>
-            <li>Medical Safety 是否穩定通過</li>
-          </ul>
+      </div>
+      <div class="card callout good">
+        <h4>現在怎麼處理</h4>
+        <ul class="tight-list dim mt-s">
+          <li>辨識客人已經回答探查題。</li>
+          <li>下一句改成承接與建議，而不是重問。</li>
+          <li>即使走到知識庫回覆，也會加上防重問規則。</li>
+        </ul>
+        <p class="small mt-m"><span class="tag good">已補 guard</span> 目標是讓客服更像有記憶的真人助理。</p>
+      </div>
+    </div>
+    <div class="notes">講這頁時可以強調：這不是炫技，而是最基本的對話禮貌。PM 驗收時要看真實 log 裡是否還有重問同一題。</div>
+  </section>
+
+  <section class="slide" data-title="修正三：知識庫與價格">
+    <p class="kicker">06 / 已完成修正 3</p>
+    <h2 class="h2">知識庫不只是塞更多資料，而是放對資料、說對話</h2>
+    <p class="lede mt-m">醫美客服不能只像百科全書，也不能在線上直接報固定價。這次調整把知識庫整理成「能幫助諮詢」的內容，而不是讓機器背價目表。</p>
+    <div class="grid g3 mt-l anim-stagger-list" data-anim-target>
+      <div class="card callout good">
+        <h4>資料範圍變乾淨</h4>
+        <p class="dim small">只匯入官網衛教、療程適應症、風險禁忌、術前後注意、價格變因與診所核心資訊。</p>
+        <span class="tag good">已重建</span>
+      </div>
+      <div class="card callout">
+        <h4>回答方式更像顧問</h4>
+        <p class="dim small">價格問題改成：先理解預算疑慮，說明費用受部位、範圍、膚況與醫師評估影響，再引導專人確認。</p>
+        <span class="tag">不直接報固定價</span>
+      </div>
+      <div class="card callout warn">
+        <h4>技術細節放在後台</h4>
+        <p class="dim small">S3 指定資料夾匯入、向量檢索與關鍵字檢索同步重建，確保查到的是最新審核資料。</p>
+        <span class="tag warn">持續治理</span>
+      </div>
+    </div>
+    <div class="notes">把 RAG 翻成「知識庫」。只在必要時補充：後台已重建資料來源與搜尋索引。對業務聽眾來說，重點是知識庫能讓回答更準，但不會違反不報價策略。</div>
+  </section>
+
+  <section class="slide" data-title="風險與客訴">
+    <p class="kicker">07 / 風險處理</p>
+    <h2 class="h2">高風險訊息要先被攔下，再交給更穩的流程</h2>
+    <p class="lede mt-m">客訴、術後不適、情緒激動的比例可能不高，但影響最大。這部分不是讓 AI 自己硬聊，而是先判斷風險，再啟動更保守的回覆與人工處理。</p>
+    <div class="grid g2 mt-l">
+      <div class="card">
+        <h4>目前已存在的防線</h4>
+        <ul class="tight-list dim mt-s">
+          <li>訊息進來後先做風險判斷。</li>
+          <li>高風險狀況啟動危機模式。</li>
+          <li>術後問題保留快速分流路徑。</li>
+          <li>避免一般銷售話術誤回客訴場景。</li>
+        </ul>
+      </div>
+      <div class="card callout warn">
+        <h4>下一步要補強</h4>
+        <div class="progress-row">
+          <strong>通知 SLA</strong>
+          <p class="dim small">明確定義多久內要通知人工客服或主管。</p>
+        </div>
+        <div class="progress-row">
+          <strong>抽樣稽核</strong>
+          <p class="dim small">定期回看高風險對話，確認語氣與分流正確。</p>
         </div>
       </div>
     </div>
+    <div class="notes">這頁要讓管理者放心：風險不是事後才處理，已經在訊息進來的前段做判斷。但也要誠實說下一步還要補通知與稽核，這才是 PM 進度報告的語氣。</div>
   </section>
 
-  <!-- 10. Action Items -->
-  <section class="slide" data-title="Action Items">
-    <p class="kicker">06 / 更新後行動清單</p>
-    <h2 class="h2">Action Items</h2>
-    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
+  <section class="slide" data-title="目前完成進度">
+    <p class="kicker">08 / 目前完成進度</p>
+    <h2 class="h2">6 月 22 日已完成的交付</h2>
+    <p class="lede mt-m">這些不是待辦，而是已完成並部署的項目。接下來的工作會從「功能完成」切到「驗證成效」。</p>
+    <div class="grid g2 mt-l">
       <div class="card">
-        <h4><span class="done">P0 已完成</span></h4>
-        <ul class="dim mt-s" style="font-size:0.9em;">
-          <li>RAG S3 include prefix ingestion；官網衛教 ingest</li>
-          <li>BM25 與 ChromaDB 同步重建；走 Hybrid Search</li>
-          <li>意圖驗證改 <code>gpt-5-nano</code></li>
-          <li>booking-aware 接待；法令紋防重問 guard</li>
-          <li>VM 更新至 <code>744a48f</code> 並重啟</li>
+        <h4>對話體驗修正</h4>
+        <ul class="tight-list dim mt-s">
+          <li>高意願預約先承接，再引導留資料。</li>
+          <li>已提供聯絡方式時，不重複索取。</li>
+          <li>法令紋探查題已補防重問。</li>
+          <li>價格回覆維持不報固定價。</li>
         </ul>
       </div>
       <div class="card">
-        <h4><span class="todo">P0 / P1 / P2 待做</span></h4>
-        <ul class="dim mt-s" style="font-size:0.9em;">
-          <li><strong>P0</strong>：VM 跑完整 DeepEval；抽樣 24–48h 真實 log；建高意願療程測試集</li>
-          <li><strong>P1</strong>：ingestion manifest；話術品質 rubric；RiskGuard E2E；評估打開 <code>use_multi_agent</code></li>
-          <li><strong>P2</strong>：跨境醫療 workflow；Temporal 長流程狀態引擎</li>
+        <h4>系統與資料更新</h4>
+        <ul class="tight-list dim mt-s">
+          <li>官網衛教與診所核心資料已重新匯入。</li>
+          <li>知識庫搜尋資料已同步重建。</li>
+          <li>意圖判斷模型已更新。</li>
+          <li>VM 已部署至 <span class="plain-code">744a48f</span>，服務狀態 healthy。</li>
         </ul>
       </div>
     </div>
-    <div class="deck-footer"><span class="dim2">下一步：規劃 → 回歸測試 + 真實 log 監控 + KPI 驗證</span></div>
+    <div class="grid g3 mt-l">
+      <div class="card tc"><div class="metric">26</div><div class="metric-label">目標回歸測試通過</div></div>
+      <div class="card tc"><div class="metric">1.0000</div><div class="metric-label">不報價合規</div></div>
+      <div class="card tc"><div class="metric">0.8571</div><div class="metric-label">繁中品質評估</div></div>
+    </div>
+    <div class="notes">這頁用 PM 交付語言呈現。數字要講清楚來源：26 是目標回歸測試，不等於所有測試；1.0000 是價格不直接報價的合規分數；0.8571 是繁中品質摘要。</div>
+  </section>
+
+  <section class="slide" data-title="仍要驗證">
+    <p class="kicker">09 / 驗收重點</p>
+    <h2 class="h2">接下來要回答三個問題</h2>
+    <p class="lede mt-m">功能修完只是第一步，真正要看的是客戶行為有沒有改變。下一階段會用測試和真實客服紀錄雙軌驗證。</p>
+    <div class="grid g3 mt-l anim-stagger-list" data-anim-target>
+      <div class="card callout">
+        <h4>1. 客人有沒有更願意回？</h4>
+        <p class="dim small">觀察第二輪回覆率，尤其是廣告快速回覆後的下一句是否提升。</p>
+      </div>
+      <div class="card callout">
+        <h4>2. 高意願有沒有被接住？</h4>
+        <p class="dim small">追蹤「下週想做、想預約、想來看看」是否直接走預約承接，而不是被一般探問打斷。</p>
+      </div>
+      <div class="card callout">
+        <h4>3. 有沒有再犯老問題？</h4>
+        <p class="dim small">抽樣檢查重複追問、過早索取個資、百科式長文、已留資料仍重問。</p>
+      </div>
+    </div>
+    <div class="card callout warn mt-l">
+      <h4>驗收方式</h4>
+      <p class="dim small mt-s">先跑完整回歸測試，再抽樣最近 24 至 48 小時真實客服 log。測試看「不會壞」，真實 log 看「客人是否真的比較願意聊」。</p>
+    </div>
+    <div class="notes">這頁讓報告從已完成進到下一步。建議講法：我們不會只用測試分數說成功，因為客服優化最後要回到客人有沒有繼續對話。</div>
+  </section>
+
+  <section class="slide" data-title="行動清單">
+    <p class="kicker">10 / 行動清單</p>
+    <h2 class="h2">下一階段任務拆成 P0、P1、P2</h2>
+    <p class="lede mt-m">P0 先確保這次修正有效且沒有副作用；P1 把流程變成可長期管理；P2 再處理更長週期與跨境客戶場景。</p>
+    <div class="grid g3 mt-l">
+      <div class="card callout bad">
+        <h4>P0：本週要完成</h4>
+        <ul class="tight-list dim small mt-s">
+          <li>跑完整回歸測試。</li>
+          <li>抽樣 24 至 48 小時真實 log。</li>
+          <li>建立高意願預約測試集：電音波、音波、電波、皮秒、肉毒、玻尿酸。</li>
+        </ul>
+      </div>
+      <div class="card callout warn">
+        <h4>P1：穩定營運</h4>
+        <ul class="tight-list dim small mt-s">
+          <li>建立知識庫匯入紀錄。</li>
+          <li>建立客服話術品質評分表。</li>
+          <li>補齊風險與危機處理的端到端測試。</li>
+          <li>評估多代理架構逐步開放。</li>
+        </ul>
+      </div>
+      <div class="card callout">
+        <h4>P2：後續擴充</h4>
+        <ul class="tight-list dim small mt-s">
+          <li>跨境醫療流程：停留天數、搭機、視訊諮詢、術後照護。</li>
+          <li>跨天預約與術後追蹤的長流程狀態管理。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="notes">這頁是 PM 可執行的待辦。P0 不要放太多，重點是驗證剛上線的修正。P1 是讓系統可維護，P2 才是擴張功能。</div>
+  </section>
+
+  <section class="slide" data-title="結論">
+    <p class="kicker">11 / 結論</p>
+    <h2 class="h2">這次優化的核心：讓客服先聽懂，再引導下一步</h2>
+    <p class="lede mt-m">系統架構已經具備基礎能力，真正影響成效的是前幾輪對話是否像真人一樣接得住：不重問、不急著要資料、不亂報價，並在高意願出現時把預約接起來。</p>
+    <div class="grid g2 mt-l">
+      <div class="card callout good">
+        <h4>已經完成的轉變</h4>
+        <p class="dim">從「規劃優化」進到「修正已部署」。重點功能已補上，目標回歸測試已通過。</p>
+      </div>
+      <div class="card callout warn">
+        <h4>接下來的管理重點</h4>
+        <p class="dim">從「修功能」進到「看成效」。用真實對話與 KPI 確認客人是否更願意繼續聊、留資料、進到人工確認。</p>
+      </div>
+    </div>
+    <div class="deck-footer"><span>下一步：完整回歸測試 + 真實 log 監控 + KPI 驗證</span><span class="slide-number" data-current="13" data-total="13"></span></div>
+    <div class="notes">收尾要把故事拉回大綱：客戶從廣告來，在前段停住，我們補了前段承接、知識庫與風險處理，下一步就是用真實數據驗收。這樣收束會比單純列技術項目更像 PM 匯報。</div>
   </section>
 
 </div>
 <script src="assets/runtime.js"></script>
-<!-- Initialize FX runtime if any canvas FX are used (not strictly needed here but good practice) -->
 <script src="assets/animations/fx-runtime.js"></script>
 </body>
 </html>
